@@ -1,0 +1,112 @@
+﻿<!-- Menu -->
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <div class="app-brand demo">
+        <span class="app-brand-logo flex-shrink-1 demo"></span>
+        <a href="/" class="app-brand-text demo menu-text fw-bolder ms-2">admin</a>
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+        </a>
+    </div>
+    <div class="menu-inner-shadow"></div>
+    <ul class="menu-inner py-1">
+        <!-- Page -->
+        <li class="menu-item">
+            <a asp-controller="Home" asp-action="Index" asp-area="Admin" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="داشبورد">داشبورد</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-tv"></i>
+                مدیریت کانال ها
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a asp-area="AdminPanel" asp-controller="Channel" asp-action="Index" class="menu-link">
+                        لیست کانال ها
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a asp-area="AdminPanel" asp-controller="Channel" asp-action="Create" class="menu-link">
+                        کانال جدید
+                    </a>
+                </li>
+            </ul>
+        </li>
+        @* <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-trending-up"></i>
+                @Localizer["ManageLevel"]
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a asp-area="Admin" asp-controller="Level" asp-action="List" class="menu-link">
+                        @Localizer["LevelList"]
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a asp-area="Admin" asp-controller="Level" asp-action="Create" class="menu-link">
+                        @Localizer["CreateLevel"]
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-trending-up"></i>
+                @Localizer["ManageAgeGroup"]
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a asp-area="Admin" asp-controller="AgeGroup" asp-action="List" class="menu-link">
+                        @Localizer["AgeGroupList"]
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a asp-area="Admin" asp-controller="AgeGroup" asp-action="Create" class="menu-link">
+                        @Localizer["CreateAgeGroup"]
+                    </a>
+                </li>
+            </ul>
+        </li> *@
+@*         <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-user-circle"></i>
+                مدیریت نقش ها
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a asp-area="Admin" asp-controller="Role" asp-action="List" class="menu-link">
+                        لیست نقش ها
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a asp-area="Admin" asp-controller="Role" asp-action="Create" class="menu-link">
+                        افزودن نقش
+                    </a>
+                </li>
+            </ul>
+        </li>
+ *@
+        @*  <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons fas fa-link"></i>
+        @Localizer["ManageDynamicLink"]
+        </a>
+        <ul class="menu-sub">
+        <li class="menu-item">
+        <a asp-area="Admin" asp-controller="DynamicLink" asp-action="DynamicLinks" class="menu-link">
+        @Localizer["DynamicLinkLists"]
+        </a>
+        </li>
+        <li class="menu-item">
+        <a asp-area="Admin" asp-controller="DynamicLink" asp-action="CreateDynamicLink" class="menu-link">
+        @Localizer["DynamicLinkCreate"]
+        </a>
+        </li>
+        </ul>
+        </li> *@
+    </ul>
+</aside>
+<!-- / Menu -->
