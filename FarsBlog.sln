@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarsBlog.Domain", "FarsBlog
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarsBlog.Infra.Data", "FarsBlog.Infra.Data\FarsBlog.Infra.Data.csproj", "{DA5AF76D-9F3A-41E4-A7EF-6737BF23546E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarsBlog.Infra.IoC", "FarsBlog.Infra.IoC\FarsBlog.Infra.IoC.csproj", "{5A76787D-2FB1-49BB-BF60-28AF169D7D00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarsBlog.Application", "FarsBlog.Application\FarsBlog.Application.csproj", "{05DE6F6F-D397-48AA-8302-EDBFB606428E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{DA5AF76D-9F3A-41E4-A7EF-6737BF23546E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA5AF76D-9F3A-41E4-A7EF-6737BF23546E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA5AF76D-9F3A-41E4-A7EF-6737BF23546E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A76787D-2FB1-49BB-BF60-28AF169D7D00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A76787D-2FB1-49BB-BF60-28AF169D7D00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A76787D-2FB1-49BB-BF60-28AF169D7D00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A76787D-2FB1-49BB-BF60-28AF169D7D00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05DE6F6F-D397-48AA-8302-EDBFB606428E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05DE6F6F-D397-48AA-8302-EDBFB606428E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05DE6F6F-D397-48AA-8302-EDBFB606428E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05DE6F6F-D397-48AA-8302-EDBFB606428E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

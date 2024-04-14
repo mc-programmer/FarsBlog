@@ -1,6 +1,8 @@
-﻿namespace FarsBlog.Infra.Data.Context
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace FarsBlog.Infra.Data.Context;
+
+public class FarsBlogDbContext:DbContext
 {
-    public class FarsBlogDbContext
-    {
-    }
+    public FarsBlogDbContext(DbContextOptions<FarsBlogDbContext> options) : base(options) { }
 }

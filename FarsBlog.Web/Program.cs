@@ -1,15 +1,25 @@
+using FarsBlog.Infra.IoC.DependencyContainer;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
+#region Services
+
 builder.Services.AddControllersWithViews();
+
+DependencyContainer.RegisterDependencies(
+   services: builder.Services,
+   connectionString: builder.Configuration.GetConnectionString("CodeJooyanTVConnectionString")!);
+
+#endregion
+
+#region Pipline
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -25,3 +35,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+#endregion
