@@ -9,6 +9,7 @@
 	<ItemGroup>
 		<Folder Include="Areas\Userpanel\" />
 		<Folder Include="Areas\Writer\" />
+		<Folder Include="Controllers\" />
 	</ItemGroup>
 
 	<ItemGroup>
