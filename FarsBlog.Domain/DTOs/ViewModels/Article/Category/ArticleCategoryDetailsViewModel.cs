@@ -3,6 +3,7 @@
 public class ArticleCategoryDetailsViewModel
 {
     public string? Title { get; set; }
+    public stirng? ShortDescription { get; set; }
     public string? Description { get; set; }
     public int? ParentId { get; set; }
     public string? ImageName { get; set; }
