@@ -1,6 +1,6 @@
 ﻿using FarsBlog.Domain.ViewModel.Common.Filter;
 
-namespace FarsBlog.Domain.ViewModel.Common;
+namespace FarsBlog.Domain.DTOs.ViewModels.Common;
 
 public class BasePaging<T>
 {

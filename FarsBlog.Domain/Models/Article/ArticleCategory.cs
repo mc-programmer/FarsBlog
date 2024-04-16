@@ -13,6 +13,9 @@ public class ArticleCategory : BaseEntity<int>
     [MaxLength(60)]
     public string? Slug { get; set; }
 
+    [MaxLength(100)]
+    public string? ShortDescription { get; set; }
+
     [MaxLength(500)]
     public string? Description { get; set; }
 

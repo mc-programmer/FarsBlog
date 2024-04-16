@@ -1,4 +1,4 @@
-﻿namespace FarsBlog.Domain.ViewModels.Common;
+﻿namespace FarsBlog.Domain.DTOs.ViewModels.Common;
 
 public class ModalBaseViewModel
 {

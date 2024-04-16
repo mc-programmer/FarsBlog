@@ -1,4 +1,4 @@
-﻿namespace FarsBlog.Domain.ViewModel.Common.Filter;
+﻿namespace FarsBlog.Domain.DTOs.ViewModels.Common.Filter;
 
 public class PagingViewModel
 {
