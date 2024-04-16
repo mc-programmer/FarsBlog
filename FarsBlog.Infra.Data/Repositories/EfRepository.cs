@@ -1,4 +1,6 @@
-﻿using FarsBlog.Domain.Interfaces;
+﻿using FarsBlog.Domain.DTOs.ViewModels.Common;
+using FarsBlog.Domain.DTOs.ViewModels.Common.Filter;
+using FarsBlog.Domain.Interfaces;
 using FarsBlog.Domain.Models.Common;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -76,32 +78,32 @@ public class EfRepository<TEntity, TKey> : IRepository<TEntity, TKey> where TEnt
 
         return await query.ToListAsync();
     }
-    //public virtual async Task FilterAsync<TModel>(BasePaging<TModel> filterModel, FilterConditions<TEntity> filterConditions, Expression<Func<TEntity, TModel>> mapping, Expression<Func<TEntity, object>>? orderBy = null, Expression<Func<TEntity, object>>? orderByDesc = null)
-    //{
-    //    IQueryable<TEntity> query = _dbSet;
+    public virtual async Task FilterAsync<TModel>(BasePaging<TModel> filterModel, FilterConditions<TEntity> filterConditions, Expression<Func<TEntity, TModel>> mapping, Expression<Func<TEntity, object>>? orderBy = null, Expression<Func<TEntity, object>>? orderByDesc = null)
+    {
+        IQueryable<TEntity> query = _dbSet;
 
-    //    foreach (Expression<Func<TEntity, bool>> filter2 in filterConditions)
-    //    {
+        foreach (Expression<Func<TEntity, bool>> filter2 in filterConditions)
+        {
 
-    //        query = query.Where(filter2);
+            query = query.Where(filter2);
 
-    //    }
+        }
 
-    //    if (orderBy != null)
-    //    {
-    //        query = query.OrderBy(orderBy);
-    //    }
-    //    else if (orderByDesc != null)
-    //    {
-    //        query = query.OrderByDescending(orderByDesc);
-    //    }
-    //    else if (typeof(TEntity)!.IsAssignableTo(typeof(BaseEntity<TKey>)))
-    //    {
-    //        query = query.OrderByDescending((TEntity entity) => (entity as BaseEntity<TKey>).CreateDateOnUtc);
-    //    }
+        if (orderBy != null)
+        {
+            query = query.OrderBy(orderBy);
+        }
+        else if (orderByDesc != null)
+        {
+            query = query.OrderByDescending(orderByDesc);
+        }
+        else if (typeof(TEntity)!.IsAssignableTo(typeof(BaseEntity<TKey>)))
+        {
+            query = query.OrderByDescending((TEntity entity) => (entity as BaseEntity<TKey>).CreateDateOnUtc);
+        }
 
-    //    await filterModel.Paging(query.Select(mapping));
-    //}
+        await filterModel.Paging(query.Select(mapping));
+    }
 
     public virtual async Task InsertAsync(TEntity entity)
     {
