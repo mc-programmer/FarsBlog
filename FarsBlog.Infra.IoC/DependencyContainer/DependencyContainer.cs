@@ -1,4 +1,9 @@
-﻿using FarsBlog.Infra.Data.Context;
+﻿using FarsBlog.Application.Services.Implementation.Article;
+using FarsBlog.Application.Services.Interfaces.Article;
+using FarsBlog.Domain.Interfaces.Article;
+using FarsBlog.Domain.Models.Article;
+using FarsBlog.Infra.Data.Context;
+using FarsBlog.Infra.Data.Repositories.Article;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,10 +25,18 @@ public class DependencyContainer
         #region Repositories
 
         #region Article
-        
+
+        services.AddScoped<IArticleCategoryRepository, ArticleCategoryRepository>();
+
         #endregion
 
-        #region User
+        #endregion
+
+        #region Services
+
+        #region Article
+
+        services.AddScoped<IArticleCategoryService, ArticleCategoryService>();
 
         #endregion
 
