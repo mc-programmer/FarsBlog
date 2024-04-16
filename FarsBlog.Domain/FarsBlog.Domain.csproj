@@ -12,8 +12,5 @@
     <None Remove="Shared\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTOs\ViewModels\Article\Category\" />
-  </ItemGroup>
 
 </Project>
