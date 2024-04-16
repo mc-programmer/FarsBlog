@@ -10,12 +10,12 @@ public class AdminSideUpsertArticleCategoryViewModel
     [Display(Name ="عنوان")]
     [Required(ErrorMessage =ErrorMessages.RequiredError)]
     [MaxLength(60,ErrorMessage = ErrorMessages.MaxLengthError)]
-    public required string Title { get; set; }
+    public string? Title { get; set; }
 
     [Display(Name ="عنوان در URL")]
     [Required(ErrorMessage =ErrorMessages.RequiredError)]
     [MaxLength(60,ErrorMessage = ErrorMessages.MaxLengthError)]
-    public required string Slug { get; set; }
+    public string? Slug { get; set; }
 
     [Display(Name = "عنوان تصویر")]
     public string? ImageName { get; set; }

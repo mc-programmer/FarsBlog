@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FarsBlog.Application\FarsBlog.Application.csproj" />
     <ProjectReference Include="..\FarsBlog.Infra.Data\FarsBlog.Infra.Data.csproj" />
   </ItemGroup>
 

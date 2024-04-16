@@ -17,16 +17,39 @@ public static class ArticleCategoryMapper
         IsDelete = articleCategory.IsDelete
     };
 
-    public static ArticleCategory MapFrom(this ArticleCategory model , AdminSideUpsertArticleCategoryViewModel articleCategory)
+    public static ArticleCategory MapFrom(this ArticleCategory model, AdminSideUpsertArticleCategoryViewModel articleCategory)
     {
-        model.Id = articleCategory.Id.HasValue ? articleCategory.Id.Value : 0;
+        if (articleCategory.Id.HasValue) model.Id = articleCategory.Id.Value;
+        model.Title = articleCategory.Title;
+        model.Slug = articleCategory.Slug;
         model.ImageAlt = articleCategory.ImageAlt;
         model.ImageName = articleCategory.ImageName;
         model.ShortDescription = articleCategory.ShortDescription;
-        model.Slug = articleCategory.Slug;
-        model.Title = articleCategory.Title;
         model.Description = articleCategory.Description;
 
         return model;
     }
+
+    public static AdminSideUpsertArticleCategoryViewModel MapFrom(this AdminSideUpsertArticleCategoryViewModel articleCategory, ArticleCategory model) => new()
+    {
+        Id = articleCategory.Id,
+        Title = articleCategory.Title,
+        Slug = articleCategory.Slug,
+        Description = articleCategory.Description,
+        ImageAlt = articleCategory.ImageAlt,
+        ImageName = articleCategory.ImageName,
+        ShortDescription = articleCategory.ShortDescription,
+    };
+
+    public static ArticleCategoryDetailsViewModel MapFrom(this ArticleCategoryDetailsViewModel articleCategory, ArticleCategory model) => new()
+    {
+        Id = articleCategory.Id,
+        Title = articleCategory.Title,
+        Slug = articleCategory.Slug,
+        ParentId = articleCategory.ParentId,
+        Description = articleCategory.Description,
+        ImageAlt = articleCategory.ImageAlt,
+        ImageName = articleCategory.ImageName,
+        ShortDescription = articleCategory.ShortDescription,
+    };
 }
