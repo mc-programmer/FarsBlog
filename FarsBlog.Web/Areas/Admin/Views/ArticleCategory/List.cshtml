@@ -1,0 +1,48 @@
+﻿@using FarsBlog.Domain.DTOs.ViewModels.Article.Category;
+@model FilterArticleCategoryViewModel
+
+@{
+    ViewData["Title"] = "مدیریت دسته بندی مقالات";
+}
+
+<div class="row">
+    <div class="col-md-12 mb-3">
+        <div class="card">
+            <div class="card-header">
+                <h5>جستـــجو</h5>
+            </div>
+            <div class="card-body">
+                <form asp-area="Admin" asp-controller="ArticleCategory" asp-action="GetPartialList" method="get" id="search-form"
+                      data-ajax="true" data-method="get" data-ajax-begin="displayWaitMe('#FilterList')" data-ajax-success="hideWaitMe('#FilterList')" data-ajax-mode="replace" data-ajax-update="#FilterList">
+                    <input type="hidden" asp-for="Page" id="pageId" />
+                    <div class="row">
+
+                        <div class="mb-3 col-12 col-md-6">
+                            <label asp-for="Title" class="form-label"></label>
+                            <input type="search" asp-for="Title" class="form-control me-2" placeholder="عنوان" aria-label="Search">
+                        </div>
+
+                        <div class="mb-3 col-12 col-md-6">
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <button class="btn btn-outline-primary w-50" type="submit">جستجو</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h5>@ViewData["Title"]</h5>
+                <button type="button" onclick="loadModalElements('@Url.Action(action: "AddUser",controller:"Users",new {area = "AdminPanel"})','modal-xl')" class="btn btn-primary">افزودن</button>
+            </div>
+            <div id="FilterList">
+                <partial name="_ArticleCategoryListPartial" model="Model" />
+            </div>
+        </div>
+    </div>
+
+</div>

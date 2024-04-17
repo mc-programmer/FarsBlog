@@ -9,7 +9,7 @@ public interface IArticleCategoryService
     #region Common
 
     Task<Result<ArticleCategoryDetailsViewModel>> GetArticleCategoryByIdAsync(int categoryId);
-    Task<Result<AdminSideUpsertArticleCategoryViewModel>> GetArticleCategoryByIdForAdminUpsert(int categoryId);
+    Task<Result<AdminSideUpsertArticleCategoryViewModel>> GetArticleCategoryByIdForAdminUpdate(int categoryId);
     Task<Result<bool>> ValidateArticleCategorySlugAsync(string slug,int? articleCategoryId = null);
     Task<Result<bool>> ValidateArticleCategoryTitleAsync(string title,int? articleCategoryId = null);
 

@@ -1,0 +1,37 @@
+﻿@using FarsBlog.Domain.DTOs.ViewModels.Article.Category;
+@model FilterArticleCategoryViewModel
+
+<div id="FilterList">
+
+    @if (Model != null && Model.Entities != null && Model.Entities.Any())
+    {
+        <div class="table-responsive mb-4 text-nowrap text-center">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>عنوان</th>  
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var item in Model.Entities)
+                    {
+                        <tr>
+                            <td>@(string.IsNullOrEmpty(item.Title) ? "بدون عنوان" : item.Title)</td>
+                            <td>
+                                <a class="text-info crouser" onclick="loadModalElements('@Url.Action(action: "UserDetails",controller:"Users",new {area = "AdminPanel",userId=item.Id})','modal-xl')" title="جزییات کاربر">
+                                    <i class="bx bx-book me-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <partial name="_AjaxPagingPartial" model="@Model.GetCurrentPaging()" />
+    }
+    else
+    {
+        <partial name="_NotFoundPartial" />
+    }
+</div>

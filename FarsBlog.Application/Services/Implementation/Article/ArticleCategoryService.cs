@@ -37,7 +37,7 @@ public class ArticleCategoryService : IArticleCategoryService
 
         return new ArticleCategoryDetailsViewModel().MapFrom(articleCategory);
     }
-    public async Task<Result<AdminSideUpsertArticleCategoryViewModel>> GetArticleCategoryByIdForAdminUpsert(int categoryId)
+    public async Task<Result<AdminSideUpsertArticleCategoryViewModel>> GetArticleCategoryByIdForAdminUpdate(int categoryId)
     {
         if (categoryId >= 0) return Result.Failure<AdminSideUpsertArticleCategoryViewModel>(ErrorMessages.NullValue);
 
@@ -75,8 +75,6 @@ public class ArticleCategoryService : IArticleCategoryService
 
     public async Task<Result<FilterArticleCategoryViewModel>> FilterArticleCategoriesAsync(FilterArticleCategoryViewModel filter)
     {
-        if (filter is null) return Result.Failure<FilterArticleCategoryViewModel>(ErrorMessages.NullValue);
-
         var filterConditions = Filter.GenerateConditions<ArticleCategory>();
 
         if (!string.IsNullOrEmpty(filter.Title))
