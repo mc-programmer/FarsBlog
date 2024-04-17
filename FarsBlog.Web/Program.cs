@@ -1,9 +1,11 @@
 using FarsBlog.Infra.IoC.DependencyContainer;
+using FarsBlog.Web.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 #region Services
+
+LogsConfiger.ConfigeSerilog(builder.Host);
 
 builder.Services.AddControllersWithViews();
 
