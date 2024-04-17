@@ -26,6 +26,6 @@ public class Result
 
     public static Result<TValue> Failure<TValue>(string message) => new(default, false, message);
 
-    public static Result<TValue> Create<TValue>(TValue? value) => value is not null ? Success(value) : Failure<TValue>(ErrorMessages.ProcessFailedError);
+    public static Result<TValue> Create<TValue>(TValue? value) => value is not null ? Success(value) : Failure<TValue>("عملیات با شکست مواجه شد");
 
 }

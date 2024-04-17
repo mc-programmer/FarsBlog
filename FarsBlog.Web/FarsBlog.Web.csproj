@@ -21,6 +21,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\FarsBlog.Domain\FarsBlog.Domain.csproj" />
 		<ProjectReference Include="..\FarsBlog.Infra.IoC\FarsBlog.Infra.IoC.csproj" />
 	</ItemGroup>
 </Project>
