@@ -37,7 +37,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h5>@ViewData["Title"]</h5>
-                <button type="button" onclick="loadModalElements('@Url.Action(action: "AddUser",controller:"Users",new {area = "AdminPanel"})','modal-xl')" class="btn btn-primary">افزودن</button>
+                <button type="button" class="btn btn-primary" onclick="loadModalElements('@Url.Action("Create","ArticleCategory",new {area = "Admin"})','modal-xl')" >افزودن</button>
             </div>
             <div id="FilterList">
                 <partial name="_ArticleCategoryListPartial" model="Model" />

@@ -76,21 +76,12 @@ function ModalUpsertResult(result) {
     if (result.isSuccess === true) {
         $("#modal").modal("hide");
 
-        if (result.listToReload) {
-            $(result.listToReload).load(location.href + " " + result.listToReload);
-        }
-        Swal.fire({
-            title: "عملیات موفق",
-            text: result.message,
-            icon: "success"
-        });
+        $("#search-form").submit();
+
+        toastr.success(result.message, 'عملیات موفق');
     }
     else {
-        Swal.fire({
-            title: "خطا",
-            text: result.message,
-            icon: "error"
-        });
+        toastr.error(result.message, 'مشکلی پیش آمده');
     }
 }
 

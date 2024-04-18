@@ -8,6 +8,7 @@ public static class ArticleCategoryMapper
 {
     public static Expression<Func<ArticleCategory, ArticleCategoryDetailsViewModel>> MapArticleCategoryDetailsViewModel => (ArticleCategory articleCategory) => new()
     {
+        Id = articleCategory.Id,
         Title = articleCategory.Title,
         Description = articleCategory.Description,
         ParentId = articleCategory.ParentId,
@@ -32,13 +33,13 @@ public static class ArticleCategoryMapper
 
     public static AdminSideUpsertArticleCategoryViewModel MapFrom(this AdminSideUpsertArticleCategoryViewModel articleCategory, ArticleCategory model) => new()
     {
-        Id = articleCategory.Id,
-        Title = articleCategory.Title,
-        Slug = articleCategory.Slug,
-        Description = articleCategory.Description,
-        ImageAlt = articleCategory.ImageAlt,
-        ImageName = articleCategory.ImageName,
-        ShortDescription = articleCategory.ShortDescription,
+        Id = model.Id,
+        Title = model.Title,
+        Slug = model.Slug,
+        Description = model.Description,
+        ImageAlt = model.ImageAlt,
+        ImageName = model.ImageName,
+        ShortDescription = model.ShortDescription,
     };
 
     public static ArticleCategoryDetailsViewModel MapFrom(this ArticleCategoryDetailsViewModel articleCategory, ArticleCategory model) => new()
