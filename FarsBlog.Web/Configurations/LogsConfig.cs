@@ -4,14 +4,12 @@ namespace FarsBlog.Web.Configurations;
 
 public static class LogsConfiger
 {
-    public static void ConfigeSerilog(IHostBuilder hostBuilder)
+    public static void ConfigeSerilog(WebApplicationBuilder builder)
     {
         Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Warning()
-            .WriteTo.Console()
-            .WriteTo.File("logs/serilog-logs.txt", rollingInterval: RollingInterval.Day)
+            .ReadFrom.Configuration(builder.Configuration)
             .CreateLogger();
 
-        hostBuilder.UseSerilog();
+        builder.Host.UseSerilog();
     }
 }
