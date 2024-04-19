@@ -113,20 +113,5 @@ public class ArticleCategoryController : AdminBaseController
 
     #endregion
 
-    #region Recovery
-
-    [HttpPost]
-    public async Task<JsonResult> Recover(int id)
-    {
-        var result = await _articleCategoryService.RecoverArticleCategoryAsync(id);
-
-        if (result.IsFailure)
-            return new ModalJsonResult(result.Message);
-
-        return new ModalJsonResult(result.Message,isSuccess:true);
-    }
-
-    #endregion
-
     #endregion
 }

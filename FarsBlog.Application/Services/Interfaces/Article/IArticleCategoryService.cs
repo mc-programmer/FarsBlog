@@ -21,7 +21,6 @@ public interface IArticleCategoryService
     Task<Result> CreateArticleCategoryAsync(AdminSideUpsertArticleCategoryViewModel model);
     Task<Result> UpdateArticleCategoryAsync(AdminSideUpsertArticleCategoryViewModel model);
     Task<Result> DeleteArticleCategoryAsync(int categoryId);
-    Task<Result> RecoverArticleCategoryAsync(int categoryId);
 
     #endregion
 }

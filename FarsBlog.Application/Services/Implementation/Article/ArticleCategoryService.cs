@@ -43,7 +43,7 @@ public class ArticleCategoryService : IArticleCategoryService
         if (categoryId <= 0) return Result.Failure<AdminSideUpsertArticleCategoryViewModel>(ErrorMessages.NullValue);
 
         var articleCategory = await _articleCategoryRepository.GetByIdAsync(categoryId);
-        if (articleCategory is null) return Result.Failure<AdminSideUpsertArticleCategoryViewModel>(ErrorMessages.NotFoundErorr);
+        if (articleCategory is null || articleCategory.IsDelete) return Result.Failure<AdminSideUpsertArticleCategoryViewModel>(ErrorMessages.NotFoundErorr);
 
         return new AdminSideUpsertArticleCategoryViewModel().MapFrom(articleCategory);
     }
@@ -145,26 +145,6 @@ public class ArticleCategoryService : IArticleCategoryService
         articleCategoryToBeDeleted.IsDelete = true;
 
         _articleCategoryRepository.Update(articleCategoryToBeDeleted);
-        await _articleCategoryRepository.SaveAsync();
-
-        return Result.Success(SuccessMessages.SuccessfullyDone);
-    }
-    public async Task<Result> RecoverArticleCategoryAsync(int categoryId)
-    {
-        if (categoryId <= 0) return Result.Failure(ErrorMessages.NullValue);
-
-        var articleCategoryToBeRecovered = await _articleCategoryRepository.GetByIdAsync(categoryId);
-        if (articleCategoryToBeRecovered is null) return Result.Failure(ErrorMessages.NotFoundErorr);
-
-        var isValid = await ValidateArticleCategoryTitleAsync(articleCategoryToBeRecovered.Title ?? "", categoryId);
-        if (!isValid.Value) return Result.Failure(ErrorMessages.TitleExistError);
-
-        isValid = await ValidateArticleCategorySlugAsync(articleCategoryToBeRecovered.Slug ?? "", categoryId);
-        if (!isValid.Value) return Result.Failure(ErrorMessages.SlugExistError);
-
-        articleCategoryToBeRecovered.IsDelete = false;
-
-        _articleCategoryRepository.Update(articleCategoryToBeRecovered);
         await _articleCategoryRepository.SaveAsync();
 
         return Result.Success(SuccessMessages.SuccessfullyDone);
