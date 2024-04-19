@@ -76,25 +76,16 @@ function ModalUpsertResult(result) {
     if (result.isSuccess === true) {
         $("#modal").modal("hide");
 
-        if (result.listToReload) {
-            $(result.listToReload).load(location.href + " " + result.listToReload);
-        }
-        Swal.fire({
-            title: "عملیات موفق",
-            text: result.message,
-            icon: "success"
-        });
+        $("#search-form").submit();
+
+        toastr.success(result.message, 'عملیات موفق');
     }
     else {
-        Swal.fire({
-            title: "خطا",
-            text: result.message,
-            icon: "error"
-        });
+        toastr.error(result.message, 'مشکلی پیش آمده');
     }
 }
 
-async function ModalDeleteConfirm(url) {
+async function DeleteConfirm(url) {
     Swal.fire({
         html: `<b>ایا از حذف اطمینان دارید؟</b>`,
         showDenyButton: true,
@@ -109,45 +100,32 @@ async function ModalDeleteConfirm(url) {
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    displayWaitMe("#modal-content");
+                    displayWaitMe();
                 },
                 success: function (response) {
-                    hideWaitMe("#modal-content");
+                    hideWaitMe();
                     if (response.isSuccess) {
-                        $("#modal").modal("hide");
 
-                        if (result.listToReload) {
-                            $(result.listToReload).load(location.href + " " + result.listToReload);
-                        }
+                        $("#search-form").submit();
 
-                        Swal.fire({
-                            title: "حذف شد!",
-                            icon: "success",
-                            button: "باشه"
-                        });
+                        toastr.success(response.message, 'عملیات موفق');
                     }
                     else {
-                        Swal.fire({
-                            title: "خطا",
-                            text: "عملیات ناموفق بود!",
-                            icon: "error",
-                            button: "باشه"
-                        });
+                        hideWaitMe();
+                        toastr.error(response.message, 'مشکلی پیش آمده');
                     }
                 },
                 error: function (err) {
-                    console.log(err)
+                    hideWaitMe();
+                    toastr.error('مشکلی پیش آمده');
                 }
             });
         }
     });
 }
-
-
-
 async function ModalRecoverConfirm(url) {
     Swal.fire({
-        html: `<b>از بازسازی اطمینان دارید؟</b>`,
+        html: `<b>از بازیازی اطمینان دارید؟</b>`,
         showDenyButton: true,
         icon: 'warning',
         confirmButtonText: 'بازیابی',
@@ -160,39 +138,27 @@ async function ModalRecoverConfirm(url) {
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    displayWaitMe("#modal-content");
+                    displayWaitMe();
                 },
                 success: function (response) {
-                    hideWaitMe("#modal-content");
+                    hideWaitMe();
                     if (response.isSuccess) {
-                        $("#modal").modal("hide");
+                        $("#search-form").submit();
 
-                        if (result.listToReload) {
-                            $(result.listToReload).load(location.href + " " + result.listToReload);
-                        }
-
-                        Swal.fire({
-                            title: "بازیابی شد!",
-                            icon: "success",
-                            button: "باشه"
-                        });
+                        toastr.success(response.message, 'عملیات موفق');
                     }
                     else {
-                        Swal.fire({
-                            title: "خطا",
-                            text: "عملیات ناموفق بود!",
-                            icon: "error",
-                            button: "باشه"
-                        });
+                        hideWaitMe();
+
+                        toastr.error(response.message, 'مشکلی پیش آمده');
                     }
                 },
                 error: function (err) {
-                    console.log(err)
+                    toastr.error('مشکلی پیش آمده');
+
+                    console.log(err);
                 }
             });
         }
     });
 }
-
-
-

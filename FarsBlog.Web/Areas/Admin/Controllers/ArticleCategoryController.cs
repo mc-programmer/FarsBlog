@@ -1,6 +1,7 @@
 ﻿using FarsBlog.Application.Services.Interfaces.Article;
 using FarsBlog.Domain.DTOs.ViewModels.Article.Category;
 using FarsBlog.Domain.Shared;
+using FarsBlog.Web.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarsBlog.Web.Areas.Admin.Controllers;
@@ -24,6 +25,8 @@ public class ArticleCategoryController : AdminBaseController
 
     #region Actions
 
+    #region List
+
     [HttpGet()]
     public async Task<IActionResult> List(FilterArticleCategoryViewModel filter)
     {
@@ -44,29 +47,25 @@ public class ArticleCategoryController : AdminBaseController
         return PartialView("_ArticleCategoryListPartial", result.Value);
     }
 
+    #endregion
+
     #region Create
 
     [HttpGet]
-    public ViewResult Create() => View();
+    public PartialViewResult Create() => PartialView("_CreateCategoryPartial");
 
+    [HttpPost]
     public async Task<IActionResult> Create(AdminSideUpsertArticleCategoryViewModel model)
     {
         if (!ModelState.IsValid)
-        {
-            TempData[ToastrSuccessMessage] = ErrorMessages.NullValue;
-            return View(model);
-        }
+            return new ModalJsonResult(ErrorMessages.NullValue);
 
         var result = await _articleCategoryService.CreateArticleCategoryAsync(model);
 
         if (result.IsFailure)
-        {
-            TempData[ErrorMessage] = result.Message;
-            return View(model);
-        }
+            return new ModalJsonResult(result.Message);
 
-        TempData[ToastrSuccessMessage] = result.Message;
-        return RedirectToAction(actionName:nameof(List));
+        return new ModalJsonResult(result.Message, isSuccess: true);
     }
 
     #endregion
@@ -78,33 +77,53 @@ public class ArticleCategoryController : AdminBaseController
         var result = await _articleCategoryService.GetArticleCategoryByIdForAdminUpdate(id);
 
         if (result.IsFailure)
-        {
-            TempData[ToastrErrorMessage] = result.Message;
-            return RedirectToAction(nameof(List));
-        }
+            return PartialView("_NotFoundModalPartial");
 
-        return View(result.Value);
+        return PartialView("_UpdateCategoryPartial", result.Value);
     }
 
-    [HttpPost,ValidateAntiForgeryToken]
+    [HttpPost]
     public async Task<IActionResult> Update(AdminSideUpsertArticleCategoryViewModel model)
     {
         if (!ModelState.IsValid)
-        {
-            TempData[ErrorMessage] = ErrorMessages.NullValue;
-            return View(model);
-        }
+            return new ModalJsonResult(ErrorMessages.NullValue);
 
         var result = await _articleCategoryService.UpdateArticleCategoryAsync(model);
 
         if (result.IsFailure)
-        {
-            TempData[ToastrErrorMessage] = result.Message;
-            return View(model);
-        }
+            return new ModalJsonResult(result.Message);
 
-        TempData[ToastrSuccessMessage] = result.Message;
-        return RedirectToAction(nameof(List));
+        return new ModalJsonResult(result.Message, isSuccess: true);
+    }
+
+    #endregion
+
+    #region Delete
+
+    [HttpPost]
+    public async Task<JsonResult> Delete(int id)
+    {
+        var result = await _articleCategoryService.DeleteArticleCategoryAsync(id);
+
+        if (result.IsFailure) 
+            return new ModalJsonResult(result.Message);
+
+        return new ModalJsonResult(result.Message,isSuccess:true);
+    }
+
+    #endregion
+
+    #region Recovery
+
+    [HttpPost]
+    public async Task<JsonResult> Recover(int id)
+    {
+        var result = await _articleCategoryService.RecoverArticleCategoryAsync(id);
+
+        if (result.IsFailure)
+            return new ModalJsonResult(result.Message);
+
+        return new ModalJsonResult(result.Message,isSuccess:true);
     }
 
     #endregion

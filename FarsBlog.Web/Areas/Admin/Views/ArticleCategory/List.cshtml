@@ -1,4 +1,5 @@
 ﻿@using FarsBlog.Domain.DTOs.ViewModels.Article.Category;
+@using FarsBlog.Domain.Enums.Common
 @model FilterArticleCategoryViewModel
 
 @{
@@ -23,6 +24,9 @@
                         </div>
 
                         <div class="mb-3 col-12 col-md-6">
+                            <label asp-for="DeletedStatus" class="form-label"></label>
+                            <select asp-for="DeletedStatus" asp-items="Html.GetEnumSelectList<DeletedStatus>()" class="form-select" aria-label="Default select example">
+                            </select>
                         </div>
                         <div class="mb-3 col-12 col-md-6">
                             <button class="btn btn-outline-primary w-50" type="submit">جستجو</button>
@@ -37,7 +41,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h5>@ViewData["Title"]</h5>
-                <button type="button" onclick="loadModalElements('@Url.Action(action: "AddUser",controller:"Users",new {area = "AdminPanel"})','modal-xl')" class="btn btn-primary">افزودن</button>
+                <button type="button" class="btn btn-primary" onclick="loadModalElements('@Url.Action("Create","ArticleCategory",new {area = "Admin"})','modal-xl')" >افزودن</button>
             </div>
             <div id="FilterList">
                 <partial name="_ArticleCategoryListPartial" model="Model" />

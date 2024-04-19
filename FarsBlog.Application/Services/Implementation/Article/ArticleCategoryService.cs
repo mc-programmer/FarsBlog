@@ -2,6 +2,7 @@
 using FarsBlog.Application.Services.Interfaces.Article;
 using FarsBlog.Domain.DTOs.ViewModels.Article.Category;
 using FarsBlog.Domain.DTOs.ViewModels.Common.Filter;
+using FarsBlog.Domain.Enums.Common;
 using FarsBlog.Domain.Interfaces.Article;
 using FarsBlog.Domain.Models.Article;
 using FarsBlog.Domain.Shared;
@@ -30,7 +31,7 @@ public class ArticleCategoryService : IArticleCategoryService
 
     public async Task<Result<ArticleCategoryDetailsViewModel>> GetArticleCategoryByIdAsync(int categoryId)
     {
-        if (categoryId >= 0) return Result.Failure<ArticleCategoryDetailsViewModel>(ErrorMessages.NullValue);
+        if (categoryId <= 0) return Result.Failure<ArticleCategoryDetailsViewModel>(ErrorMessages.NullValue);
 
         var articleCategory = await _articleCategoryRepository.GetByIdAsync(categoryId);
         if (articleCategory is null) return Result.Failure<ArticleCategoryDetailsViewModel>(ErrorMessages.NotFoundErorr);
@@ -39,7 +40,7 @@ public class ArticleCategoryService : IArticleCategoryService
     }
     public async Task<Result<AdminSideUpsertArticleCategoryViewModel>> GetArticleCategoryByIdForAdminUpdate(int categoryId)
     {
-        if (categoryId >= 0) return Result.Failure<AdminSideUpsertArticleCategoryViewModel>(ErrorMessages.NullValue);
+        if (categoryId <= 0) return Result.Failure<AdminSideUpsertArticleCategoryViewModel>(ErrorMessages.NullValue);
 
         var articleCategory = await _articleCategoryRepository.GetByIdAsync(categoryId);
         if (articleCategory is null) return Result.Failure<AdminSideUpsertArticleCategoryViewModel>(ErrorMessages.NotFoundErorr);
@@ -49,9 +50,9 @@ public class ArticleCategoryService : IArticleCategoryService
     public async Task<Result<bool>> ValidateArticleCategorySlugAsync(string slug, int? articleCategoryId = null)
     {
         var articleCategoryWithSameSlug = await _articleCategoryRepository
-            .GetAllAsync(filter: a => a.Slug == slug.Trim() && a.Id != articleCategoryId);
+            .GetAllAsync(filter: a => !a.IsDelete && a.Slug == slug.Trim() && a.Id != articleCategoryId);
 
-        if (articleCategoryWithSameSlug is not null) return false;
+        if (articleCategoryWithSameSlug is not null && articleCategoryWithSameSlug.Any()) return false;
 
         return true;
     }
@@ -60,7 +61,7 @@ public class ArticleCategoryService : IArticleCategoryService
         var articleCategoryWithSameTitle = await _articleCategoryRepository
             .GetAllAsync(filter: a => !a.IsDelete && a.Title == title.Trim() && a.Id != articleCategoryId);
 
-        if (articleCategoryWithSameTitle is not null) return false;
+        if (articleCategoryWithSameTitle is not null && articleCategoryWithSameTitle.Any()) return false;
 
         return true;
     }
@@ -80,29 +81,40 @@ public class ArticleCategoryService : IArticleCategoryService
         if (!string.IsNullOrEmpty(filter.Title))
             filterConditions.Add(articleCategory => EF.Functions.Like(articleCategory.Title, $"%{filter.Title.Trim()}%"));
 
+        switch (filter.DeletedStatus)
+        {
+            case DeletedStatus.All:
+                break;
+            case DeletedStatus.Deleted:
+                filterConditions.Add(articleCategory => articleCategory.IsDelete);
+                break;
+            case DeletedStatus.NotDeleted:
+            default:
+                filterConditions.Add(articleCategory => !articleCategory.IsDelete);
+                break;
+        }
+
         await _articleCategoryRepository.FilterAsync(filter, filterConditions, ArticleCategoryMapper.MapArticleCategoryDetailsViewModel);
 
         return filter;
     }
-
     public async Task<Result> CreateArticleCategoryAsync(AdminSideUpsertArticleCategoryViewModel model)
     {
         if (model is null) return Result.Failure(ErrorMessages.NullValue);
 
         var articleCategory = new ArticleCategory().MapFrom(model);
 
-        var isModelValid = await ValidateArticleCategoryTitleAsync(model.Slug ?? "");
-        if (!isModelValid.Value) return Result.Failure(ErrorMessages.SlugExistError);
-
-        isModelValid = await ValidateArticleCategoryTitleAsync(model.Title ?? "");
+        var isModelValid = await ValidateArticleCategoryTitleAsync(model.Title ?? "");
         if (!isModelValid.Value) return Result.Failure(ErrorMessages.TitleExistError);
+
+        isModelValid = await ValidateArticleCategorySlugAsync(model.Slug ?? "");
+        if (!isModelValid.Value) return Result.Failure(ErrorMessages.SlugExistError);
 
         await _articleCategoryRepository.InsertAsync(articleCategory);
         await _articleCategoryRepository.SaveAsync();
 
         return Result.Success(SuccessMessages.SuccessfullyDone);
     }
-
     public async Task<Result> UpdateArticleCategoryAsync(AdminSideUpsertArticleCategoryViewModel model)
     {
         if (model is null || !model.Id.HasValue) return Result.Failure(ErrorMessages.NullValue);
@@ -110,20 +122,19 @@ public class ArticleCategoryService : IArticleCategoryService
         var articleCategoryFromDatabase = await _articleCategoryRepository.GetByIdAsync(model.Id.Value);
         if (articleCategoryFromDatabase is null) return Result.Failure(ErrorMessages.NotFoundErorr);
 
-        var isModelValidToBeRecovered = await ValidateArticleCategoryTitleAsync(model.Slug ?? "", model.Id);
-        if (!isModelValidToBeRecovered.Value) return Result.Failure(ErrorMessages.SlugExistError);
+        var isModelValid = await ValidateArticleCategoryTitleAsync(model.Title ?? "", model.Id);
+        if (!isModelValid.Value) return Result.Failure(ErrorMessages.TitleExistError);
 
-        isModelValidToBeRecovered = await ValidateArticleCategoryTitleAsync(model.Title ?? "", model.Id);
-        if (!isModelValidToBeRecovered.Value) return Result.Failure(ErrorMessages.TitleExistError);
+        isModelValid = await ValidateArticleCategorySlugAsync(model.Slug ?? "", model.Id);
+        if (!isModelValid.Value) return Result.Failure(ErrorMessages.SlugExistError);
 
-        var articleCategoryToReplace = new ArticleCategory().MapFrom(model);
+        articleCategoryFromDatabase = articleCategoryFromDatabase.MapFrom(model);
 
-        _articleCategoryRepository.Update(articleCategoryToReplace);
+        _articleCategoryRepository.Update(articleCategoryFromDatabase);
         await _articleCategoryRepository.SaveAsync();
 
         return Result.Success(SuccessMessages.SuccessfullyDone);
     }
-
     public async Task<Result> DeleteArticleCategoryAsync(int categoryId)
     {
         if (categoryId <= 0) return Result.Failure(ErrorMessages.NullValue);
@@ -138,7 +149,6 @@ public class ArticleCategoryService : IArticleCategoryService
 
         return Result.Success(SuccessMessages.SuccessfullyDone);
     }
-
     public async Task<Result> RecoverArticleCategoryAsync(int categoryId)
     {
         if (categoryId <= 0) return Result.Failure(ErrorMessages.NullValue);
@@ -146,11 +156,11 @@ public class ArticleCategoryService : IArticleCategoryService
         var articleCategoryToBeRecovered = await _articleCategoryRepository.GetByIdAsync(categoryId);
         if (articleCategoryToBeRecovered is null) return Result.Failure(ErrorMessages.NotFoundErorr);
 
-        var isModelValidToBeRecovered = await ValidateArticleCategoryTitleAsync(articleCategoryToBeRecovered.Slug ?? "", categoryId);
-        if (!isModelValidToBeRecovered.Value) return Result.Failure(ErrorMessages.SlugExistError);
+        var isValid = await ValidateArticleCategoryTitleAsync(articleCategoryToBeRecovered.Title ?? "", categoryId);
+        if (!isValid.Value) return Result.Failure(ErrorMessages.TitleExistError);
 
-        isModelValidToBeRecovered = await ValidateArticleCategoryTitleAsync(articleCategoryToBeRecovered.Title ?? "", categoryId);
-        if (!isModelValidToBeRecovered.Value) return Result.Failure(ErrorMessages.TitleExistError);
+        isValid = await ValidateArticleCategorySlugAsync(articleCategoryToBeRecovered.Slug ?? "", categoryId);
+        if (!isValid.Value) return Result.Failure(ErrorMessages.SlugExistError);
 
         articleCategoryToBeRecovered.IsDelete = false;
 

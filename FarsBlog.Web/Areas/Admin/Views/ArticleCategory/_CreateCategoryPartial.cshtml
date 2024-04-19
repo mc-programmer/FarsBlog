@@ -1,0 +1,28 @@
+﻿@using FarsBlog.Domain.DTOs.ViewModels.Article.Category;
+@model AdminSideUpsertArticleCategoryViewModel
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel5">افزودن دسته بندی جدید</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<form asp-area="Admin" asp-controller="ArticleCategory" asp-action="Create" id="modal-form"
+      data-ajax="true" data-method="post" data-ajax-begin="displayWaitMe('#modal-content')" data-ajax-success="ModalUpsertResult">
+    <div class="p-3">
+        <div class="row">
+            <div class="mb-3 col-md-6 fv-plugins-icon-container">
+                <label asp-for="Title" class="form-label"></label>
+                <input class="form-control" type="text" asp-for="Title">
+                <span asp-validation-for="Title"></span>
+            </div>
+            <div class="mb-3 col-md-6 fv-plugins-icon-container">
+                <label asp-for="Slug" class="form-label"></label>
+                <input class="form-control" type="text" asp-for="Slug">
+                <span asp-validation-for="Slug"></span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">بستن</button>
+        <button type="submit" class="btn btn-primary">ثـــبت</button>
+    </div>
+</form>

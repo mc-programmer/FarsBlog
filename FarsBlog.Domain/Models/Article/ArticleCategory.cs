@@ -12,25 +12,12 @@ public class ArticleCategory : BaseEntity<int>
 
     [MaxLength(60)]
     public string? Slug { get; set; }
-
-    [MaxLength(100)]
-    public string? ShortDescription { get; set; }
-
-    [MaxLength(500)]
-    public string? Description { get; set; }
-
-    [MaxLength(50)]
-    public string? ImageName{ get; set; }
-
-    [MaxLength(50)]
-    public string? ImageAlt { get; set; }
-    public int? ParentId { get; set; }
-
+    
     #endregion
 
     #region Relations
 
-    public virtual ArticleCategory? Parent { get; set; }
+    public virtual ArticleCategory? Parent { get;set; }
 
     #endregion
 }
