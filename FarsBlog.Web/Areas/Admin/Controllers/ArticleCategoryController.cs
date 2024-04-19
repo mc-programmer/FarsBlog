@@ -1,7 +1,7 @@
-﻿using FarsBlog.Web.Results;
-using FarsBlog.Application.Services.Interfaces.Article;
+﻿using FarsBlog.Application.Services.Interfaces.Article;
 using FarsBlog.Domain.DTOs.ViewModels.Article.Category;
 using FarsBlog.Domain.Shared;
+using FarsBlog.Web.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FarsBlog.Web.Areas.Admin.Controllers;
@@ -54,6 +54,7 @@ public class ArticleCategoryController : AdminBaseController
     [HttpGet]
     public PartialViewResult Create() => PartialView("_CreateCategoryPartial");
 
+    [HttpPost]
     public async Task<IActionResult> Create(AdminSideUpsertArticleCategoryViewModel model)
     {
         if (!ModelState.IsValid)
@@ -93,6 +94,36 @@ public class ArticleCategoryController : AdminBaseController
             return new ModalJsonResult(result.Message);
 
         return new ModalJsonResult(result.Message, isSuccess: true);
+    }
+
+    #endregion
+
+    #region Delete
+
+    [HttpPost]
+    public async Task<JsonResult> Delete(int id)
+    {
+        var result = await _articleCategoryService.DeleteArticleCategoryAsync(id);
+
+        if (result.IsFailure) 
+            return new ModalJsonResult(result.Message);
+
+        return new ModalJsonResult(result.Message,isSuccess:true);
+    }
+
+    #endregion
+
+    #region Recovery
+
+    [HttpPost]
+    public async Task<JsonResult> Recover(int id)
+    {
+        var result = await _articleCategoryService.RecoverArticleCategoryAsync(id);
+
+        if (result.IsFailure)
+            return new ModalJsonResult(result.Message);
+
+        return new ModalJsonResult(result.Message,isSuccess:true);
     }
 
     #endregion

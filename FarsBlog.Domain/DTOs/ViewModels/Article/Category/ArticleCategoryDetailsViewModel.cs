@@ -5,11 +5,5 @@ public class ArticleCategoryDetailsViewModel
     public int? Id { get; set; }
     public string? Title { get; set; }
     public string? Slug { get; set; }
-    public string? ShortDescription { get; set; }
-    public string? Description { get; set; }
-    public int? ParentId { get; set; }
-    public string? ImageName { get; set; }
-    public string? ImageAlt { get; set; }
-    public bool IsActive { get; set; }
     public bool IsDelete { get; set; }
 }

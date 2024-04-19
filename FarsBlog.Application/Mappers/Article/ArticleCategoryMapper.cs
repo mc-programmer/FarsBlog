@@ -10,47 +10,26 @@ public static class ArticleCategoryMapper
     {
         Id = articleCategory.Id,
         Title = articleCategory.Title,
-        Description = articleCategory.Description,
-        ParentId = articleCategory.ParentId,
-        ImageAlt = articleCategory.ImageAlt,
-        ImageName = articleCategory.ImageName,
-        ShortDescription = articleCategory.ShortDescription,
         IsDelete = articleCategory.IsDelete
     };
-
     public static ArticleCategory MapFrom(this ArticleCategory model, AdminSideUpsertArticleCategoryViewModel articleCategory)
     {
         if (articleCategory.Id.HasValue) model.Id = articleCategory.Id.Value;
-        model.Title = articleCategory.Title;
-        model.Slug = articleCategory.Slug;
-        model.ImageAlt = articleCategory.ImageAlt;
-        model.ImageName = articleCategory.ImageName;
-        model.ShortDescription = articleCategory.ShortDescription;
-        model.Description = articleCategory.Description;
+        model.Title = articleCategory.Title?.Trim();
+        model.Slug = articleCategory.Slug?.Trim();
 
         return model;
     }
-
     public static AdminSideUpsertArticleCategoryViewModel MapFrom(this AdminSideUpsertArticleCategoryViewModel articleCategory, ArticleCategory model) => new()
     {
         Id = model.Id,
-        Title = model.Title,
-        Slug = model.Slug,
-        Description = model.Description,
-        ImageAlt = model.ImageAlt,
-        ImageName = model.ImageName,
-        ShortDescription = model.ShortDescription,
+        Title = model.Title?.Trim(),
+        Slug = model.Slug?.Trim(),
     };
-
     public static ArticleCategoryDetailsViewModel MapFrom(this ArticleCategoryDetailsViewModel articleCategory, ArticleCategory model) => new()
     {
         Id = articleCategory.Id,
-        Title = articleCategory.Title,
-        Slug = articleCategory.Slug,
-        ParentId = articleCategory.ParentId,
-        Description = articleCategory.Description,
-        ImageAlt = articleCategory.ImageAlt,
-        ImageName = articleCategory.ImageName,
-        ShortDescription = articleCategory.ShortDescription,
+        Title = articleCategory.Title?.Trim(),
+        Slug = articleCategory.Slug?.Trim()
     };
 }
