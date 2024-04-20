@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 #region Services
 
-LogsConfiger.ConfigeSerilog(builder);
+LogsConfiger.ConfigSerilog(builder);
 
 builder.Services.AddControllersWithViews();
 
