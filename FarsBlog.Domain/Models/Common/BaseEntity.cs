@@ -13,3 +13,4 @@ public abstract class BaseEntity<T> where T : IEquatable<T>
 
     public bool IsDelete { get; set; }
 }
+public abstract class BaseEntity : BaseEntity<int> { }
