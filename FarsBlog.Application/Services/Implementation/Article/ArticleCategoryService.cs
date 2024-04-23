@@ -1,5 +1,7 @@
-﻿using FarsBlog.Application.Mappers.Article;
+﻿using FarsBlog.Application.Extentions;
+using FarsBlog.Application.Mappers.Article;
 using FarsBlog.Application.Services.Interfaces.Article;
+using FarsBlog.Application.Statics;
 using FarsBlog.Domain.DTOs.ViewModels.Article.Category;
 using FarsBlog.Domain.DTOs.ViewModels.Common.Filter;
 using FarsBlog.Domain.Enums.Common;
@@ -38,14 +40,15 @@ public class ArticleCategoryService : IArticleCategoryService
 
         return new ArticleCategoryDetailsViewModel().MapFrom(articleCategory);
     }
-    public async Task<Result<AdminSideUpsertArticleCategoryViewModel>> GetArticleCategoryByIdForAdminUpdate(int categoryId)
+    //todo : Fix THis!
+    public async Task<Result<AdminSideCreateArticleCategoryViewModel>> GetArticleCategoryByIdForAdminUpdate(int categoryId)
     {
-        if (categoryId <= 0) return Result.Failure<AdminSideUpsertArticleCategoryViewModel>(ErrorMessages.NullValue);
+        if (categoryId <= 0) return Result.Failure<AdminSideCreateArticleCategoryViewModel>(ErrorMessages.NullValue);
 
         var articleCategory = await _articleCategoryRepository.GetByIdAsync(categoryId);
-        if (articleCategory is null || articleCategory.IsDelete) return Result.Failure<AdminSideUpsertArticleCategoryViewModel>(ErrorMessages.NotFoundErorr);
+        if (articleCategory is null || articleCategory.IsDelete) return Result.Failure<AdminSideCreateArticleCategoryViewModel>(ErrorMessages.NotFoundErorr);
 
-        return new AdminSideUpsertArticleCategoryViewModel().MapFrom(articleCategory);
+        return new AdminSideCreateArticleCategoryViewModel().MapFrom(articleCategory);
     }
     public async Task<Result<bool>> ValidateArticleCategorySlugAsync(string slug, int? articleCategoryId = null)
     {
@@ -98,11 +101,26 @@ public class ArticleCategoryService : IArticleCategoryService
 
         return filter;
     }
-    public async Task<Result> CreateArticleCategoryAsync(AdminSideUpsertArticleCategoryViewModel model)
+    public async Task<Result> CreateArticleCategoryAsync(AdminSideCreateArticleCategoryViewModel model)
     {
         if (model is null) return Result.Failure(ErrorMessages.NullValue);
 
+        model.CoverImageName = "default.png";
+
+        if (model.CoverImage is not null)
+        {
+            model.CoverImageName = Guid.NewGuid() + Path.GetExtension(model.CoverImage.FileName);
+            
+            if (SiteTools.ArticleCategory is null) return Result.Failure(ErrorMessages.OperationFailedError);
+
+            var result = model.CoverImage.AddImageToServer(model.CoverImageName, SiteTools.ArticleCategory, 400, 280, SiteTools.ArticleCategoryThumb);
+
+            if (result.IsFailure) return Result.Failure("خطا در افزودن تصویر");
+        }
+
         var articleCategory = new ArticleCategory().MapFrom(model);
+
+        #region Validate Slug and Title
 
         var isModelValid = await ValidateArticleCategoryTitleAsync(model.Title ?? "");
         if (!isModelValid.Value) return Result.Failure(ErrorMessages.TitleExistError);
@@ -110,12 +128,14 @@ public class ArticleCategoryService : IArticleCategoryService
         isModelValid = await ValidateArticleCategorySlugAsync(model.Slug ?? "");
         if (!isModelValid.Value) return Result.Failure(ErrorMessages.SlugExistError);
 
+        #endregion
+
         await _articleCategoryRepository.InsertAsync(articleCategory);
         await _articleCategoryRepository.SaveAsync();
 
         return Result.Success(SuccessMessages.SuccessfullyDone);
     }
-    public async Task<Result> UpdateArticleCategoryAsync(AdminSideUpsertArticleCategoryViewModel model)
+    public async Task<Result> UpdateArticleCategoryAsync(AdminSideCreateArticleCategoryViewModel model)
     {
         if (model is null || !model.Id.HasValue) return Result.Failure(ErrorMessages.NullValue);
 

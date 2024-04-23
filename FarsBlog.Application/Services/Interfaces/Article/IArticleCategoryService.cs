@@ -9,7 +9,7 @@ public interface IArticleCategoryService
     #region Common
 
     Task<Result<ArticleCategoryDetailsViewModel>> GetArticleCategoryByIdAsync(int categoryId);
-    Task<Result<AdminSideUpsertArticleCategoryViewModel>> GetArticleCategoryByIdForAdminUpdate(int categoryId);
+    Task<Result<AdminSideCreateArticleCategoryViewModel>> GetArticleCategoryByIdForAdminUpdate(int categoryId);
     Task<Result<bool>> ValidateArticleCategorySlugAsync(string slug,int? articleCategoryId = null);
     Task<Result<bool>> ValidateArticleCategoryTitleAsync(string title,int? articleCategoryId = null);
 
@@ -18,8 +18,8 @@ public interface IArticleCategoryService
     #region Admin
 
     Task<Result<FilterArticleCategoryViewModel>> FilterArticleCategoriesAsync(FilterArticleCategoryViewModel filter);
-    Task<Result> CreateArticleCategoryAsync(AdminSideUpsertArticleCategoryViewModel model);
-    Task<Result> UpdateArticleCategoryAsync(AdminSideUpsertArticleCategoryViewModel model);
+    Task<Result> CreateArticleCategoryAsync(AdminSideCreateArticleCategoryViewModel model);
+    Task<Result> UpdateArticleCategoryAsync(AdminSideCreateArticleCategoryViewModel model);
     Task<Result> DeleteArticleCategoryAsync(int categoryId);
 
     #endregion

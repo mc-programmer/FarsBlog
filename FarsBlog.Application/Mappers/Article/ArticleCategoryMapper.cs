@@ -12,24 +12,27 @@ public static class ArticleCategoryMapper
         Title = articleCategory.Title,
         IsDelete = articleCategory.IsDelete
     };
-    public static ArticleCategory MapFrom(this ArticleCategory model, AdminSideUpsertArticleCategoryViewModel articleCategory)
+    public static ArticleCategory MapFrom(this ArticleCategory model, AdminSideCreateArticleCategoryViewModel articleCategory)
     {
         if (articleCategory.Id.HasValue) model.Id = articleCategory.Id.Value;
         model.Title = articleCategory.Title?.Trim();
         model.Slug = articleCategory.Slug?.Trim();
+        model.CoverName = articleCategory.CoverImageName;
 
         return model;
     }
-    public static AdminSideUpsertArticleCategoryViewModel MapFrom(this AdminSideUpsertArticleCategoryViewModel articleCategory, ArticleCategory model) => new()
+    public static AdminSideCreateArticleCategoryViewModel MapFrom(this AdminSideCreateArticleCategoryViewModel articleCategory, ArticleCategory model) => new()
     {
         Id = model.Id,
         Title = model.Title?.Trim(),
         Slug = model.Slug?.Trim(),
+        CoverName = model.CoverName
     };
     public static ArticleCategoryDetailsViewModel MapFrom(this ArticleCategoryDetailsViewModel articleCategory, ArticleCategory model) => new()
     {
         Id = articleCategory.Id,
         Title = articleCategory.Title?.Trim(),
-        Slug = articleCategory.Slug?.Trim()
+        Slug = articleCategory.Slug?.Trim(),
+        CoverName = articleCategory.CoverName
     };
 }

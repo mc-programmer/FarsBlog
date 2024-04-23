@@ -55,7 +55,7 @@ public class ArticleCategoryController : AdminBaseController
     public PartialViewResult Create() => PartialView("_CreateCategoryPartial");
 
     [HttpPost]
-    public async Task<IActionResult> Create(AdminSideUpsertArticleCategoryViewModel model)
+    public async Task<IActionResult> Create(AdminSideCreateArticleCategoryViewModel model)
     {
         if (!ModelState.IsValid)
             return new ModalJsonResult(ErrorMessages.NullValue);
@@ -83,7 +83,7 @@ public class ArticleCategoryController : AdminBaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(AdminSideUpsertArticleCategoryViewModel model)
+    public async Task<IActionResult> Update(AdminSideCreateArticleCategoryViewModel model)
     {
         if (!ModelState.IsValid)
             return new ModalJsonResult(ErrorMessages.NullValue);
