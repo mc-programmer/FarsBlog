@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FarsBlog.Web.Results;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FarsBlog.Web.Areas.Admin.Controllers
 {

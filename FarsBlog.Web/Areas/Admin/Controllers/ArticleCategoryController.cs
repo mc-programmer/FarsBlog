@@ -58,14 +58,14 @@ public class ArticleCategoryController : AdminBaseController
     public async Task<IActionResult> Create(AdminSideCreateArticleCategoryViewModel model)
     {
         if (!ModelState.IsValid)
-            return new ModalJsonResult(ErrorMessages.NullValue);
+            return new JsonResponse(ErrorMessages.NullValue);
 
         var result = await _articleCategoryService.CreateArticleCategoryAsync(model);
 
         if (result.IsFailure)
-            return new ModalJsonResult(result.Message);
+            return new JsonResponse(result.Message);
 
-        return new ModalJsonResult(result.Message, isSuccess: true);
+        return new JsonResponse(result.Message, isSuccess: true);
     }
 
     #endregion
@@ -86,14 +86,14 @@ public class ArticleCategoryController : AdminBaseController
     public async Task<IActionResult> Update(AdminSideCreateArticleCategoryViewModel model)
     {
         if (!ModelState.IsValid)
-            return new ModalJsonResult(ErrorMessages.NullValue);
+            return new JsonResponse(ErrorMessages.NullValue);
 
         var result = await _articleCategoryService.UpdateArticleCategoryAsync(model);
 
         if (result.IsFailure)
-            return new ModalJsonResult(result.Message);
+            return new JsonResponse(result.Message);
 
-        return new ModalJsonResult(result.Message, isSuccess: true);
+        return new JsonResponse(result.Message, isSuccess: true);
     }
 
     #endregion
@@ -106,9 +106,9 @@ public class ArticleCategoryController : AdminBaseController
         var result = await _articleCategoryService.DeleteArticleCategoryAsync(id);
 
         if (result.IsFailure) 
-            return new ModalJsonResult(result.Message);
+            return new JsonResponse(result.Message);
 
-        return new ModalJsonResult(result.Message,isSuccess:true);
+        return new JsonResponse(result.Message,isSuccess:true);
     }
 
     #endregion
