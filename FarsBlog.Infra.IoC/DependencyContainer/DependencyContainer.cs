@@ -26,6 +26,7 @@ public class DependencyContainer
         #region Article
 
         services.AddScoped<IArticleCategoryRepository, ArticleCategoryRepository>();
+        services.AddScoped<IArticleRepository, ArticleRepository>();
 
         #endregion
 
@@ -36,6 +37,7 @@ public class DependencyContainer
         #region Article
 
         services.AddScoped<IArticleCategoryService, ArticleCategoryService>();
+        services.AddScoped<IArticleService, ArticleService>();
 
         #endregion
 

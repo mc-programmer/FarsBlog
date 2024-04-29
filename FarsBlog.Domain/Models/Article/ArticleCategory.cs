@@ -20,5 +20,7 @@ public class ArticleCategory : BaseEntity<int>
 
     #region Relations
 
+    public ICollection<ArticleCategoryMapping>? Articles { get; set; }
+
     #endregion
 }

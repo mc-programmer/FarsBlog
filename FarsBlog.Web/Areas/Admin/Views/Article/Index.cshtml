@@ -1,0 +1,52 @@
+﻿@using FarsBlog.Domain.DTOs.ViewModels.Article;
+@using FarsBlog.Domain.Enums.Common
+@model FilterArticleViewModel
+
+@{
+    ViewData["Title"] = "مدیریت مقالات";
+}
+
+<div class="row">
+    <div class="col-md-12 mb-3">
+        <div class="card">
+            <div class="card-header">
+                <h5>جستـــجو</h5>
+            </div>
+            <div class="card-body">
+                <form asp-area="Admin" asp-controller="Article" asp-action="GetPartialList" method="get" id="search-form"
+                      data-ajax="true" data-method="get" data-ajax-begin="displayWaitMe('#FilterList')" data-ajax-success="hideWaitMe('#FilterList')" data-ajax-mode="replace" data-ajax-update="#FilterList">
+                    <input type="hidden" asp-for="Page" id="pageId" />
+                    <div class="row">
+
+                        <div class="mb-3 col-12 col-md-6">
+                            <label asp-for="Search" class="form-label"></label>
+                            <input type="search" asp-for="Search" class="form-control me-2" placeholder="عنوان" aria-label="Search">
+                        </div>
+
+                        <div class="mb-3 col-12 col-md-6">
+                            <label asp-for="DeletedStatus" class="form-label"></label>
+                            <select asp-for="DeletedStatus" asp-items="Html.GetEnumSelectList<DeletedStatus>()" class="form-select" aria-label="Default select example">
+                            </select>
+                        </div>
+                        <div class="mb-3 col-12 col-md-6">
+                            <button class="btn btn-outline-primary w-50" type="submit">جستجو</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h5>@ViewData["Title"]</h5>
+                <a class="btn btn-primary">افزودن</a>
+            </div>
+            <div id="FilterList">
+                <partial name="_ArticleListPartial" model="Model" />
+            </div>
+        </div>
+    </div>
+
+</div>

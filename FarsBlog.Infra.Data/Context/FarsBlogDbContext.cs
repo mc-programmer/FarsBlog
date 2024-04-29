@@ -9,7 +9,25 @@ public class FarsBlogDbContext : DbContext
 
     #region Article
 
+    public DbSet<Article> Articles { get; set; }
+    public DbSet<ArticleCategoryMapping> ArticleCategoryMappings { get; set; }
     public DbSet<ArticleCategory> ArticleCategories { get; set; }
+
+    #endregion
+
+    #region FluentApi
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        #region MappingTables
+
+        modelBuilder.Entity<ArticleCategoryMapping>()
+            .HasKey(a => new { a.ArticleId, a.CategoryId });
+
+        #endregion
+
+        base.OnModelCreating(modelBuilder);
+    }
 
     #endregion
 }

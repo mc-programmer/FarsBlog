@@ -9,7 +9,7 @@ public static class ArticleCategoryMapper
     public static Expression<Func<ArticleCategory, ArticleCategoryDetailsViewModel>> MapArticleCategoryDetailsViewModel => (ArticleCategory articleCategory) => new()
     {
         Id = articleCategory.Id,
-        Title = articleCategory.Title,
+        Title = articleCategory.Title, 
         IsDelete = articleCategory.IsDelete
     };
     public static ArticleCategory MapFrom(this ArticleCategory model, AdminSideCreateArticleCategoryViewModel articleCategory)
