@@ -2,9 +2,9 @@
 
 namespace FarsBlog.Web.Results
 {
-    public class ModalJsonResult : JsonResult
+    public class JsonResponse : JsonResult
     {
-        public ModalJsonResult(string? message = "مشکلی پیش آمده", bool isSuccess = false) 
+        public JsonResponse(string? message = "مشکلی پیش آمده", bool isSuccess = false) 
             : base(new {isSuccess=isSuccess, message = message })
         {
         }

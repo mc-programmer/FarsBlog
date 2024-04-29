@@ -1,5 +1,6 @@
-﻿@using FarsBlog.Domain.DTOs.ViewModels.Article.Category;
-@model AdminSideUpsertArticleCategoryViewModel
+﻿@using FarsBlog.Application.Statics
+@using FarsBlog.Domain.DTOs.ViewModels.Article.Category;
+@model AdminSideUpdateArticleCategoryViewModel
 
 <div class="modal-header">
     <h5 class="modal-title" id="exampleModalLabel5">ویرایش دسته بندی</h5>
@@ -9,17 +10,51 @@
 <form asp-area="Admin" asp-controller="ArticleCategory" asp-action="Update" id="modal-form"
       data-ajax="true" data-method="post" data-ajax-begin="displayWaitMe('#modal-content')" data-ajax-success="ModalUpsertResult">
     <input type="hidden" asp-for="Id" />
-      <div class="p-3">
+    <div class="p-3">
         <div class="row">
-            <div class="mb-3 col-md-6 fv-plugins-icon-container">
-                <label asp-for="Title" class="form-label"></label>
-                <input class="form-control" type="text" asp-for="Title">
-                <span asp-validation-for="Title"></span>
+            <div class="col-md-8">
+                <div class="card p-lg-5">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="Title" class="form-label"></label>
+                                    <input asp-for="Title" class="form-control" />
+                                    <span asp-validation-for="Title"></span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="Slug" class="form-label"></label>
+                                    <input asp-for="Slug" class="form-control" />
+                                    <span asp-validation-for="Slug"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3 col-md-6 fv-plugins-icon-container">
-                <label asp-for="Slug" class="form-label"></label>
-                <input class="form-control" type="text" asp-for="Slug">
-                <span asp-validation-for="Slug"></span>
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="card p-lg-4">
+                    <div class="card-body">
+                        <div class="mt-4">
+                            <span asp-validation-for="CoverImage"></span>
+                            @if(Model.CoverImage is null)
+                            {
+                                <img src="@SiteTools.UploadImage" class="w-100 rounded-2 mb-3" ImageFile="1" />
+                            }
+                            else
+                            {
+                                <img src="@SiteTools.ArticleCategoryThumb@Model.CoverImage"/>
+                            }
+
+                            <label for="uploadImage" class=" w-100">
+                                <button type="button" class="btn btn-info  w-100" id="uploadBtn">تغییر کاور</button>
+                            </label>
+                            <input class="d-none" type="file" id="uploadImage" ImageInput="1" accept="image/png, image/jpeg" asp-for="CoverImage" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

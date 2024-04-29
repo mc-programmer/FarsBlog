@@ -8,4 +8,5 @@ public static class ErrorMessages
     public const string NotFoundErorr = "موردی یافت نشد";
     public const string SlugExistError = "عنوان در url از قبل موجود است";
     public const string TitleExistError = "عنوان از قبل موجود است";
+    public const string OperationFailedError ="عملیات شکست خورد";
 }

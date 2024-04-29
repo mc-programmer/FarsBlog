@@ -1,3 +1,4 @@
+using FarsBlog.Application.Statics;
 using FarsBlog.Infra.IoC.DependencyContainer;
 using FarsBlog.Web.Configurations;
 
@@ -12,6 +13,8 @@ builder.Services.AddControllersWithViews();
 DependencyContainer.RegisterDependencies(
    services: builder.Services,
    connectionString: builder.Configuration.GetConnectionString("CodeJooyanTVConnectionString")!);
+
+builder.Configuration.GetSection("SiteTools").Get<SiteTools>();
 
 #endregion
 

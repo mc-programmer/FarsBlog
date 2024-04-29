@@ -23,4 +23,8 @@
     <ProjectReference Include="..\FarsBlog.Domain\FarsBlog.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\Interfaces\Article\" />
+  </ItemGroup>
+
 </Project>

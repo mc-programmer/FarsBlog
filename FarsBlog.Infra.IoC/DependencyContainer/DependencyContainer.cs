@@ -1,7 +1,6 @@
 ﻿using FarsBlog.Application.Services.Implementation.Article;
 using FarsBlog.Application.Services.Interfaces.Article;
 using FarsBlog.Domain.Interfaces.Article;
-using FarsBlog.Domain.Models.Article;
 using FarsBlog.Infra.Data.Context;
 using FarsBlog.Infra.Data.Repositories.Article;
 using Microsoft.EntityFrameworkCore;

@@ -55,17 +55,17 @@ public class ArticleCategoryController : AdminBaseController
     public PartialViewResult Create() => PartialView("_CreateCategoryPartial");
 
     [HttpPost]
-    public async Task<IActionResult> Create(AdminSideUpsertArticleCategoryViewModel model)
+    public async Task<JsonResult> Create(AdminSideCreateArticleCategoryViewModel model)
     {
         if (!ModelState.IsValid)
-            return new ModalJsonResult(ErrorMessages.NullValue);
+            return new JsonResponse(ErrorMessages.NullValue);
 
         var result = await _articleCategoryService.CreateArticleCategoryAsync(model);
 
         if (result.IsFailure)
-            return new ModalJsonResult(result.Message);
+            return new JsonResponse(result.Message);
 
-        return new ModalJsonResult(result.Message, isSuccess: true);
+        return new JsonResponse(result.Message, isSuccess: true);
     }
 
     #endregion
@@ -83,17 +83,17 @@ public class ArticleCategoryController : AdminBaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(AdminSideUpsertArticleCategoryViewModel model)
+    public async Task<IActionResult> Update(AdminSideUpdateArticleCategoryViewModel model)
     {
         if (!ModelState.IsValid)
-            return new ModalJsonResult(ErrorMessages.NullValue);
+            return new JsonResponse(ErrorMessages.NullValue);
 
         var result = await _articleCategoryService.UpdateArticleCategoryAsync(model);
 
         if (result.IsFailure)
-            return new ModalJsonResult(result.Message);
+            return new JsonResponse(result.Message);
 
-        return new ModalJsonResult(result.Message, isSuccess: true);
+        return new JsonResponse(result.Message, isSuccess: true);
     }
 
     #endregion
@@ -105,10 +105,24 @@ public class ArticleCategoryController : AdminBaseController
     {
         var result = await _articleCategoryService.DeleteArticleCategoryAsync(id);
 
-        if (result.IsFailure) 
-            return new ModalJsonResult(result.Message);
+        if (result.IsFailure)
+            return new JsonResponse(result.Message);
 
-        return new ModalJsonResult(result.Message,isSuccess:true);
+        return new JsonResponse(result.Message, isSuccess: true);
+    }
+
+    #endregion
+
+    #region Recover
+
+    public async Task<IActionResult> Recover(int id)
+    {
+        var result = await _articleCategoryService.RecoverArticleCategoryAsync(id);
+
+        if (result.IsFailure)
+            return new JsonResponse(result.Message);
+
+        return new JsonResponse(result.Message, isSuccess: true);
     }
 
     #endregion

@@ -12,12 +12,13 @@ public class ArticleCategory : BaseEntity<int>
 
     [MaxLength(60)]
     public string? Slug { get; set; }
-    
+
+    [MaxLength(50)]
+    public string? CoverName { get; set; }
+
     #endregion
 
     #region Relations
-
-    public virtual ArticleCategory? Parent { get;set; }
 
     #endregion
 }
