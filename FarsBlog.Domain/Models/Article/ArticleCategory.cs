@@ -20,7 +20,5 @@ public class ArticleCategory : BaseEntity<int>
 
     #region Relations
 
-    public virtual ArticleCategory? Parent { get;set; }
-
     #endregion
 }

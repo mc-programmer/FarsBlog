@@ -14,14 +14,23 @@ public static class ArticleCategoryMapper
     };
     public static ArticleCategory MapFrom(this ArticleCategory model, AdminSideCreateArticleCategoryViewModel articleCategory)
     {
-        if (articleCategory.Id.HasValue) model.Id = articleCategory.Id.Value;
         model.Title = articleCategory.Title?.Trim();
         model.Slug = articleCategory.Slug?.Trim();
         model.CoverName = articleCategory.CoverImageName;
 
         return model;
     }
-    public static AdminSideCreateArticleCategoryViewModel MapFrom(this AdminSideCreateArticleCategoryViewModel articleCategory, ArticleCategory model) => new()
+
+    public static ArticleCategory MapFrom(this ArticleCategory model, AdminSideUpdateArticleCategoryViewModel articleCategory)
+    {
+        if (articleCategory.Id.HasValue) model.Id = articleCategory.Id.Value;
+        model.Title = articleCategory.Title?.Trim();
+        model.Slug = articleCategory.Slug?.Trim();
+        model.CoverName = articleCategory.CoverName;
+
+        return model;
+    }
+    public static AdminSideUpdateArticleCategoryViewModel MapFrom(this AdminSideUpdateArticleCategoryViewModel articleCategory, ArticleCategory model) => new()
     {
         Id = model.Id,
         Title = model.Title?.Trim(),

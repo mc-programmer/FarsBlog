@@ -19,8 +19,8 @@
                         <td>
                             @if (item.IsDelete)
                             {
-                                <a href="javascript:void(0)" class="text-info" title="حذف شده">
-                                    <i class="bx bx-block me-1"></i>
+                                <a href="javascript:void(0)" class="text-info crouser" onclick="ModalRecoverConfirm('@Url.Action("Recover","ArticleCategory",new {area = "Admin",id=item.Id})','modal-xl')" title="بازیابی دسته بندی">
+                                    <i class="bx bx-archive-out me-1"></i>
                                 </a>
                             }
                             else

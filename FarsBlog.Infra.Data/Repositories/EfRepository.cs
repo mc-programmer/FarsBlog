@@ -104,7 +104,6 @@ public class EfRepository<TEntity, TKey> : IRepository<TEntity, TKey> where TEnt
 
         await filterModel.Paging(query.Select(mapping));
     }
-
     public virtual async Task InsertAsync(TEntity entity)
     {
         await _dbSet.AddAsync(entity);
@@ -136,6 +135,23 @@ public class EfRepository<TEntity, TKey> : IRepository<TEntity, TKey> where TEnt
     public virtual async Task SaveAsync()
     {
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> AnyAsync(IQueryable<TEntity> source, Expression<Func<TEntity, bool>> predicate)
+    {
+        return await _dbSet.AnyAsync(predicate);
+    }
+
+    public async Task<bool> IsValidAsync(string propertyName, string propertyValue)
+    {
+        return await _dbSet.AnyAsync(x => EF.Property<string>(x, propertyName) == propertyValue) is true ? false : true;
+    }
+
+    public async Task<bool> IsValidAsync(string propertyName, string propertyValue, TKey? id)
+    {
+        if (id is null || id is bool) throw new ArgumentException(nameof(id));
+
+        return await _dbSet.AnyAsync(x => EF.Property<string>(x, propertyName) == propertyValue && EF.Property<TKey>(x, nameof(x.Id)).Equals(id));
     }
 
     #endregion

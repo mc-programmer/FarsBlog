@@ -40,33 +40,14 @@ public class ArticleCategoryService : IArticleCategoryService
 
         return new ArticleCategoryDetailsViewModel().MapFrom(articleCategory);
     }
-    //todo : Fix THis!
-    public async Task<Result<AdminSideCreateArticleCategoryViewModel>> GetArticleCategoryByIdForAdminUpdate(int categoryId)
+    public async Task<Result<AdminSideUpdateArticleCategoryViewModel>> GetArticleCategoryByIdForAdminUpdate(int categoryId)
     {
-        if (categoryId <= 0) return Result.Failure<AdminSideCreateArticleCategoryViewModel>(ErrorMessages.NullValue);
+        if (categoryId <= 0) return Result.Failure<AdminSideUpdateArticleCategoryViewModel>(ErrorMessages.NullValue);
 
         var articleCategory = await _articleCategoryRepository.GetByIdAsync(categoryId);
-        if (articleCategory is null || articleCategory.IsDelete) return Result.Failure<AdminSideCreateArticleCategoryViewModel>(ErrorMessages.NotFoundErorr);
+        if (articleCategory is null || articleCategory.IsDelete) return Result.Failure<AdminSideUpdateArticleCategoryViewModel>(ErrorMessages.NotFoundErorr);
 
-        return new AdminSideCreateArticleCategoryViewModel().MapFrom(articleCategory);
-    }
-    public async Task<Result<bool>> ValidateArticleCategorySlugAsync(string slug, int? articleCategoryId = null)
-    {
-        var articleCategoryWithSameSlug = await _articleCategoryRepository
-            .GetAllAsync(filter: a => !a.IsDelete && a.Slug == slug.Trim() && a.Id != articleCategoryId);
-
-        if (articleCategoryWithSameSlug is not null && articleCategoryWithSameSlug.Any()) return false;
-
-        return true;
-    }
-    public async Task<Result<bool>> ValidateArticleCategoryTitleAsync(string title, int? articleCategoryId = null)
-    {
-        var articleCategoryWithSameTitle = await _articleCategoryRepository
-            .GetAllAsync(filter: a => !a.IsDelete && a.Title == title.Trim() && a.Id != articleCategoryId);
-
-        if (articleCategoryWithSameTitle is not null && articleCategoryWithSameTitle.Any()) return false;
-
-        return true;
+        return new AdminSideUpdateArticleCategoryViewModel().MapFrom(articleCategory);
     }
 
     #endregion
@@ -103,14 +84,16 @@ public class ArticleCategoryService : IArticleCategoryService
     }
     public async Task<Result> CreateArticleCategoryAsync(AdminSideCreateArticleCategoryViewModel model)
     {
+        #region Validate Model
+
         if (model is null) return Result.Failure(ErrorMessages.NullValue);
 
-        model.CoverImageName = "default.png";
+        #endregion
 
         if (model.CoverImage is not null)
         {
             model.CoverImageName = Guid.NewGuid() + Path.GetExtension(model.CoverImage.FileName);
-            
+
             if (SiteTools.ArticleCategory is null) return Result.Failure(ErrorMessages.OperationFailedError);
 
             var result = model.CoverImage.AddImageToServer(model.CoverImageName, SiteTools.ArticleCategory, 400, 280, SiteTools.ArticleCategoryThumb);
@@ -118,40 +101,74 @@ public class ArticleCategoryService : IArticleCategoryService
             if (result.IsFailure) return Result.Failure("خطا در افزودن تصویر");
         }
 
-        var articleCategory = new ArticleCategory().MapFrom(model);
-
         #region Validate Slug and Title
 
-        var isModelValid = await ValidateArticleCategoryTitleAsync(model.Title ?? "");
-        if (!isModelValid.Value) return Result.Failure(ErrorMessages.TitleExistError);
+        var isModelValid = await _articleCategoryRepository.IsValidAsync(nameof(model.Title), model.Title!);
+        if (!isModelValid) return Result.Failure(ErrorMessages.TitleExistError);
 
-        isModelValid = await ValidateArticleCategorySlugAsync(model.Slug ?? "");
-        if (!isModelValid.Value) return Result.Failure(ErrorMessages.SlugExistError);
+        isModelValid = await _articleCategoryRepository.IsValidAsync(nameof(model.Slug), model.Slug!);
+        if (!isModelValid) return Result.Failure(ErrorMessages.SlugExistError);
 
         #endregion
+
+        #region Map And Insert
+
+        var articleCategory = new ArticleCategory().MapFrom(model);
 
         await _articleCategoryRepository.InsertAsync(articleCategory);
         await _articleCategoryRepository.SaveAsync();
 
+        #endregion
+
         return Result.Success(SuccessMessages.SuccessfullyDone);
     }
-    public async Task<Result> UpdateArticleCategoryAsync(AdminSideCreateArticleCategoryViewModel model)
+    public async Task<Result> UpdateArticleCategoryAsync(AdminSideUpdateArticleCategoryViewModel model)
     {
+        #region Validate Model
+
         if (model is null || !model.Id.HasValue) return Result.Failure(ErrorMessages.NullValue);
 
-        var articleCategoryFromDatabase = await _articleCategoryRepository.GetByIdAsync(model.Id.Value);
-        if (articleCategoryFromDatabase is null) return Result.Failure(ErrorMessages.NotFoundErorr);
+        #endregion
 
-        var isModelValid = await ValidateArticleCategoryTitleAsync(model.Title ?? "", model.Id);
-        if (!isModelValid.Value) return Result.Failure(ErrorMessages.TitleExistError);
+        if (model.CoverImage is not null)
+        {
+            string updatedImageName = Guid.NewGuid() + Path.GetExtension(model.CoverImage.FileName);
 
-        isModelValid = await ValidateArticleCategorySlugAsync(model.Slug ?? "", model.Id);
-        if (!isModelValid.Value) return Result.Failure(ErrorMessages.SlugExistError);
+            if (SiteTools.ArticleCategory is null) return Result.Failure(ErrorMessages.OperationFailedError);
 
-        articleCategoryFromDatabase = articleCategoryFromDatabase.MapFrom(model);
+            var result = model.CoverImage.AddImageToServer(updatedImageName, SiteTools.ArticleCategory,
+                400, 280, SiteTools.ArticleCategoryThumb, model.CoverName);
 
-        _articleCategoryRepository.Update(articleCategoryFromDatabase);
+            if (result.IsFailure) return Result.Failure("خطا در ,ویرایش تصویر");
+
+            model.CoverName = updatedImageName;
+        }
+
+        #region Validate Id From DB
+
+        var objectFromDatabase = await _articleCategoryRepository.GetByIdAsync(model.Id.Value);
+        if (objectFromDatabase is null) return Result.Failure(ErrorMessages.NotFoundErorr);
+
+        #endregion
+
+        #region Validate Title And Slug
+
+        var isModelValid = await _articleCategoryRepository.IsValidAsync(nameof(model.Title), model.Title!, objectFromDatabase.Id);
+        if (!isModelValid) return Result.Failure(ErrorMessages.TitleExistError);
+
+        isModelValid = await _articleCategoryRepository.IsValidAsync(nameof(model.Slug), model.Slug!, objectFromDatabase.Id);
+        if (!isModelValid) return Result.Failure(ErrorMessages.SlugExistError);
+
+        #endregion
+
+        #region Map And Update
+
+        objectFromDatabase = objectFromDatabase.MapFrom(model);
+
+        _articleCategoryRepository.Update(objectFromDatabase);
         await _articleCategoryRepository.SaveAsync();
+
+        #endregion
 
         return Result.Success(SuccessMessages.SuccessfullyDone);
     }
@@ -169,6 +186,17 @@ public class ArticleCategoryService : IArticleCategoryService
 
         return Result.Success(SuccessMessages.SuccessfullyDone);
     }
+    public async Task<Result> RecoverArticleCategoryAsync(int id)
+    {
+        var objectToRecover = await _articleCategoryRepository.GetByIdAsync(id);
+        if (objectToRecover is null) return Result.Failure(ErrorMessages.NotFoundErorr);
 
+        objectToRecover.IsDelete = false;
+
+        _articleCategoryRepository.Update(objectToRecover);
+        await _articleCategoryRepository.SaveAsync();
+
+        return Result.Success(SuccessMessages.SuccessfullyDone);
+    }
     #endregion
 }

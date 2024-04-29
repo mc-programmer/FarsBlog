@@ -1,23 +1,49 @@
-﻿@using FarsBlog.Domain.DTOs.ViewModels.Article.Category;
+﻿@using FarsBlog.Application.Statics
+@using FarsBlog.Domain.DTOs.ViewModels.Article.Category;
 @model AdminSideCreateArticleCategoryViewModel
 
 <div class="modal-header">
     <h5 class="modal-title" id="exampleModalLabel5">افزودن دسته بندی جدید</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
-<form asp-area="Admin" asp-controller="ArticleCategory" asp-action="Create" id="modal-form"
+<form asp-area="Admin" enctype="multipart/form-data" asp-controller="ArticleCategory" asp-action="Create" id="modal-form"
       data-ajax="true" data-method="post" data-ajax-begin="displayWaitMe('#modal-content')" data-ajax-success="ModalUpsertResult">
     <div class="p-3">
         <div class="row">
-            <div class="mb-3 col-md-6 fv-plugins-icon-container">
-                <label asp-for="Title" class="form-label"></label>
-                <input class="form-control" type="text" asp-for="Title">
-                <span asp-validation-for="Title"></span>
+            <div class="col-md-8">
+                <div class="card p-lg-5">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="Title" class="form-label"></label>
+                                    <input asp-for="Title" class="form-control"/>
+                                    <span asp-validation-for="Title"></span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-4">
+                                    <label asp-for="Slug" class="form-label"></label>
+                                    <input asp-for="Slug" class="form-control" />
+                                    <span asp-validation-for="Slug"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3 col-md-6 fv-plugins-icon-container">
-                <label asp-for="Slug" class="form-label"></label>
-                <input class="form-control" type="text" asp-for="Slug">
-                <span asp-validation-for="Slug"></span>
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="card p-lg-4">
+                    <div class="card-body">
+                        <div class="mt-4">
+                            <img src="@SiteTools.UploadImage" class="w-100 rounded-2 mb-3" ImageFile="1" />
+                            <label for="uploadImage2" class=" w-100">
+                                <a class="btn btn-info  w-100" id="uploadBtn2">آپلــود</a>
+                            </label>
+                            <input class="d-none" id="uploadImage2" ImageInput="1" accept="image/png, image/jpeg" name="CoverImage" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

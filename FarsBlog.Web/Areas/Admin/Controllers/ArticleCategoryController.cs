@@ -55,7 +55,7 @@ public class ArticleCategoryController : AdminBaseController
     public PartialViewResult Create() => PartialView("_CreateCategoryPartial");
 
     [HttpPost]
-    public async Task<IActionResult> Create(AdminSideCreateArticleCategoryViewModel model)
+    public async Task<JsonResult> Create(AdminSideCreateArticleCategoryViewModel model)
     {
         if (!ModelState.IsValid)
             return new JsonResponse(ErrorMessages.NullValue);
@@ -83,7 +83,7 @@ public class ArticleCategoryController : AdminBaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Update(AdminSideCreateArticleCategoryViewModel model)
+    public async Task<IActionResult> Update(AdminSideUpdateArticleCategoryViewModel model)
     {
         if (!ModelState.IsValid)
             return new JsonResponse(ErrorMessages.NullValue);
@@ -105,10 +105,24 @@ public class ArticleCategoryController : AdminBaseController
     {
         var result = await _articleCategoryService.DeleteArticleCategoryAsync(id);
 
-        if (result.IsFailure) 
+        if (result.IsFailure)
             return new JsonResponse(result.Message);
 
-        return new JsonResponse(result.Message,isSuccess:true);
+        return new JsonResponse(result.Message, isSuccess: true);
+    }
+
+    #endregion
+
+    #region Recover
+
+    public async Task<IActionResult> Recover(int id)
+    {
+        var result = await _articleCategoryService.RecoverArticleCategoryAsync(id);
+
+        if (result.IsFailure)
+            return new JsonResponse(result.Message);
+
+        return new JsonResponse(result.Message, isSuccess: true);
     }
 
     #endregion

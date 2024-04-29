@@ -6,8 +6,6 @@ namespace FarsBlog.Domain.DTOs.ViewModels.Article.Category;
 
 public class AdminSideCreateArticleCategoryViewModel
 {
-    public int? Id { get; set; }
-
     [Display(Name ="عنوان")]
     [Required(ErrorMessage =ErrorMessages.RequiredError)]
     [MaxLength(60,ErrorMessage = ErrorMessages.MaxLengthError)]
@@ -19,8 +17,7 @@ public class AdminSideCreateArticleCategoryViewModel
     public string? Slug { get; set; }
 
     public string? CoverImageName { get; set; }
-
+        
     [Display(Name ="کاور")]
-    [Required(ErrorMessage = ErrorMessages.RequiredError)]
     public IFormFile? CoverImage { get; set; }
 }
