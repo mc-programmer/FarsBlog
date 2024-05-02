@@ -1,6 +1,4 @@
 ﻿using FarsBlog.Domain.DTOs.ViewModels.Article;
-using FarsBlog.Domain.DTOs.ViewModels.Article.Category;
-using FarsBlog.Domain.Models.Article;
 using System.Linq.Expressions;
 
 namespace FarsBlog.Application.Mappers.Article;

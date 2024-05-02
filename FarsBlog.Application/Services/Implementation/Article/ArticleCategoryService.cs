@@ -94,9 +94,9 @@ public class ArticleCategoryService : IArticleCategoryService
         {
             model.CoverImageName = Guid.NewGuid() + Path.GetExtension(model.CoverImage.FileName);
 
-            if (SiteTools.ArticleCategory is null) return Result.Failure(ErrorMessages.OperationFailedError);
+            if (SiteTools.ArticleCategoryImagePath is null) return Result.Failure(ErrorMessages.OperationFailedError);
 
-            var result = model.CoverImage.AddImageToServer(model.CoverImageName, SiteTools.ArticleCategory, 400, 280, SiteTools.ArticleCategoryThumb);
+            var result = model.CoverImage.AddImageToServer(model.CoverImageName, SiteTools.ArticleCategoryImagePath, 400, 280, SiteTools.ArticleCategoryImageThumbPath);
 
             if (result.IsFailure) return Result.Failure("خطا در افزودن تصویر");
         }
@@ -134,10 +134,10 @@ public class ArticleCategoryService : IArticleCategoryService
         {
             string updatedImageName = Guid.NewGuid() + Path.GetExtension(model.CoverImage.FileName);
 
-            if (SiteTools.ArticleCategory is null) return Result.Failure(ErrorMessages.OperationFailedError);
+            if (SiteTools.ArticleCategoryImagePath is null) return Result.Failure(ErrorMessages.OperationFailedError);
 
-            var result = model.CoverImage.AddImageToServer(updatedImageName, SiteTools.ArticleCategory,
-                400, 280, SiteTools.ArticleCategoryThumb, model.CoverName);
+            var result = model.CoverImage.AddImageToServer(updatedImageName, SiteTools.ArticleCategoryImagePath,
+                400, 280, SiteTools.ArticleCategoryImageThumbPath, model.CoverName);
 
             if (result.IsFailure) return Result.Failure("خطا در ,ویرایش تصویر");
 
@@ -198,5 +198,6 @@ public class ArticleCategoryService : IArticleCategoryService
 
         return Result.Success(SuccessMessages.SuccessfullyDone);
     }
+    
     #endregion
 }

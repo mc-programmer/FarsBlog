@@ -58,14 +58,14 @@ public class ArticleCategoryController : AdminBaseController
     public async Task<JsonResult> Create(AdminSideCreateArticleCategoryViewModel model)
     {
         if (!ModelState.IsValid)
-            return new JsonResponse(ErrorMessages.NullValue);
+            return JsonResponse.Failure(ErrorMessages.NullValue);
 
         var result = await _articleCategoryService.CreateArticleCategoryAsync(model);
 
         if (result.IsFailure)
-            return new JsonResponse(result.Message);
+            return JsonResponse.Failure(result.Message);
 
-        return new JsonResponse(result.Message, isSuccess: true);
+        return JsonResponse.Success(result.Message);
     }
 
     #endregion
@@ -86,14 +86,14 @@ public class ArticleCategoryController : AdminBaseController
     public async Task<IActionResult> Update(AdminSideUpdateArticleCategoryViewModel model)
     {
         if (!ModelState.IsValid)
-            return new JsonResponse(ErrorMessages.NullValue);
+            return JsonResponse.Failure(ErrorMessages.NullValue);
 
         var result = await _articleCategoryService.UpdateArticleCategoryAsync(model);
 
         if (result.IsFailure)
-            return new JsonResponse(result.Message);
+            return JsonResponse.Failure(result.Message);
 
-        return new JsonResponse(result.Message, isSuccess: true);
+        return JsonResponse.Failure(result.Message);
     }
 
     #endregion
@@ -106,9 +106,9 @@ public class ArticleCategoryController : AdminBaseController
         var result = await _articleCategoryService.DeleteArticleCategoryAsync(id);
 
         if (result.IsFailure)
-            return new JsonResponse(result.Message);
+            return JsonResponse.Failure(result.Message);
 
-        return new JsonResponse(result.Message, isSuccess: true);
+        return JsonResponse.Failure(result.Message);
     }
 
     #endregion
@@ -120,9 +120,9 @@ public class ArticleCategoryController : AdminBaseController
         var result = await _articleCategoryService.RecoverArticleCategoryAsync(id);
 
         if (result.IsFailure)
-            return new JsonResponse(result.Message);
+            return JsonResponse.Success(result.Message);
 
-        return new JsonResponse(result.Message, isSuccess: true);
+        return JsonResponse.Success(result.Message);
     }
 
     #endregion

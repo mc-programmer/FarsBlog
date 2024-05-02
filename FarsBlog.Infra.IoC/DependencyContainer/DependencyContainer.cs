@@ -1,4 +1,5 @@
-﻿using FarsBlog.Application.Services.Implementation.Article;
+﻿using FarsBlog.Application.MappingProfiles.Article;
+using FarsBlog.Application.Services.Implementation.Article;
 using FarsBlog.Application.Services.Interfaces.Article;
 using FarsBlog.Domain.Interfaces.Article;
 using FarsBlog.Infra.Data.Context;
@@ -18,6 +19,12 @@ public class DependencyContainer
         {
             options.UseSqlServer(connectionString);
         });
+
+        #endregion
+
+        #region MyRegion
+
+        services.AddAutoMapper(typeof(ArticleProfile));
 
         #endregion
 

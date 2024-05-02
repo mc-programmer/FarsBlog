@@ -1,21 +1,19 @@
-﻿using FarsBlog.Web.Results;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace FarsBlog.Web.Areas.Admin.Controllers
+namespace FarsBlog.Web.Areas.Admin.Controllers;
+
+[Area("Admin")]
+public class AdminBaseController : Controller
 {
-    [Area("Admin")]
-    public class AdminBaseController : Controller
-    {
-        #region Messages
+    #region Messages
 
-        public static string SuccessMessage = "SuccessMessage";
-        public static string ErrorMessage = "ErrorMessage";
-        public static string InfoMessage = "InfoMessage";
-        public static string WarningMessage = "WarningMessage";
+    public static string SuccessMessage = "SuccessMessage";
+    public static string ErrorMessage = "ErrorMessage";
+    public static string InfoMessage = "InfoMessage";
+    public static string WarningMessage = "WarningMessage";
 
-        public readonly string ToastrErrorMessage = "ToastrErrorMessage";
-        public readonly string ToastrSuccessMessage = "ToastrSuccessMessage";
+    public readonly string ToastrErrorMessage = "ToastrErrorMessage";
+    public readonly string ToastrSuccessMessage = "ToastrSuccessMessage";
 
-        #endregion
-    }
+    #endregion
 }

@@ -1,0 +1,65 @@
+﻿@using FarsBlog.Application.Statics
+@using FarsBlog.Domain.DTOs.ViewModels.Article
+@model AdminSideCreateArticleViewModel 
+@{
+    ViewData["Title"] = "افزودن مقاله جدید";
+}
+
+<form asp-area="Admin" asp-controller="Article" asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <div class="card p-lg-5">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="mb-4">
+                                <label asp-for="Title"></label>
+                                <input type="text" asp-for="Title" class="form-control" />
+                                <span asp-validation-for="Title"></span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="mb-4">
+                                <label asp-for="Slug"></label>
+                                <input type="text" asp-for="Slug" class="form-control"/>
+                                <span asp-validation-for="Slug"></span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="mb-4">
+                                <label asp-for="ImageAlt"></label>
+                                <input type="text" asp-for="ImageAlt" class="form-control " />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-start">
+                            <button type="submit" class="btn btn-success">ثــبت</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card p-lg-4">
+                        <div class="card-body">
+                            <div class="mt-4">
+                                <h6 class="fs-6 mb-2">
+                                    لطفا تصویر مقاله را وارد کنید
+                                </h6>
+                                <img src="@SiteTools.UploadImage" class="w-100 rounded-2 mb-3" ImageFile="1" />
+                                <label for="uploadImage" class=" w-100">
+                                    <button type="button" class="btn btn-info  w-100" id="uploadBtn">آپلــود</button>
+                                </label>
+                                <input class="d-none" type="file" id="uploadImage" ImageInput="1" accept="image/png, image/jpeg" asp-for="ImageFile" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -8,7 +8,7 @@ public interface IArticleService
 	#region Admin
 
 	Task<FilterArticleViewModel> AdminFilterAsync(FilterArticleViewModel filter);
-	Task<Result> CreateAsync();
+	Task<Result> CreateAsync(AdminSideCreateArticleViewModel model);
 	Task<Result> UpdateAsync();
 	Task<Result<bool>> DeleteAsync(int id);
 	Task<Result<bool>> RecoverAsync(int id);

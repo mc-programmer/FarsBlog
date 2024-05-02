@@ -33,6 +33,28 @@ namespace FarsBlog.Web.Areas.Admin.Controllers
             return View(result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetPartialList(FilterArticleViewModel filter)
+        {
+            filter.TakeEntity = 10;
+            var result = await _articleService.AdminFilterAsync(filter);
+
+            return PartialView("_ArticleListPartial", result);
+        }
+
+        #endregion
+
+        #region Create
+
+        [HttpGet]
+        public IActionResult Create() => View();
+
+        //[HttpPost]
+        //public async Task<IActionResult> Create(AdminSideArticleDetailsForFilterViewModel)
+        //{
+            
+        //}
+
         #endregion
 
         #endregion

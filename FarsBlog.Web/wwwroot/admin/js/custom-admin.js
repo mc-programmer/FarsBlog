@@ -53,7 +53,7 @@ function loadModalElements(url, modalSize, displayWaiting = "body") {
                 modalSizeElemenet.classList.add(modalSize);
 
                 $('#modal .modal-content').html(res);
-                onImageInputChange();
+
                 $('#modal-form').data('validator', null);
                 $.validator.unobtrusive.parse('#modal-form');
 
@@ -162,30 +162,32 @@ async function ModalRecoverConfirm(url) {
         }
     });
 }
-onImageInputChange();
 
-function onImageInputChange() {
-    let button = document.getElementById('uploadBtn2');
-    if (button != null) {
-        button.addEventListener("click", function () {
-            let file = document.getElementById("uploadImage2");
-            console.log(file);
-            file.click();
-        });
+//#region Change Image 
+
+$("[ImageInput]").change(function () {
+    var x = $(this).attr("ImageInput");
+    var submitFormAfterUpload = $(this).attr("SubmitFormAfterUpload");
+
+    if (submitFormAfterUpload !== null && submitFormAfterUpload !== undefined && submitFormAfterUpload !== "") {
+        $(`#${submitFormAfterUpload}`).submit();
+    } else {
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("[ImageFile=" + x + "]").attr('src', e.target.result);
+            };
+            reader.readAsDataURL(this.files[0]);
+        }
     }
+});
 
-    $("[ImageInput]").change(function () {
-        var x = $(this).attr("ImageInput");
-
-
-            if (this.files && this.files[0]) {
-
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $("[ImageFile=" + x + "]").attr('src', e.target.result);
-                };
-                reader.readAsDataURL(this.files[0]);
-            }
-        
+const button = document.getElementById('uploadBtn');
+if (button != null) {
+    button.addEventListener("click", function () {
+        const file = document.getElementById("uploadImage");
+        file.click();
     });
 }
+
+// #endregion
