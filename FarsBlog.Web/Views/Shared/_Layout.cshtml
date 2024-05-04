@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+	<title>Blogzine - قالب HTML مجله خبری و وبلاگ</title>
+
+	<!-- Meta Tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Blogzine">
+	<meta name="description" content="قالب وبلاگ و مجله خبری مبتنی بر بوت استرپ">
+	@await RenderSectionAsync(name: "Scripts" , required:false)
+
+	<partial name="_DarkmodeScriptPartial" />
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="/site/images/favicon.ico">
+
+	<!-- Plugins CSS -->
+	<link rel="stylesheet" type="text/css" href="/site/vendor/font-awesome/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="/site/vendor/bootstrap-icons/bootstrap-icons.css">
+	<link rel="stylesheet" type="text/css" href="/site/vendor/tiny-slider/tiny-slider.css">
+	<link rel="stylesheet" type="text/css" href="/site/vendor/plyr/plyr.css">
+
+	<!-- Theme CSS -->
+	<link id="style-switch" rel="stylesheet" type="text/css" href="/site/css/style-rtl.css">
+
+</head>
+
+<body>
+	<!-- Preloader START -->
+	<div class="preloader">
+		<div class="loader">
+			<div class="sh1"></div>
+			<div class="sh2"></div>
+		</div>
+	</div>
+	<!-- Preloader END -->
+	<partial name="_TopAlertPartial" />
+	<partial name="_HeaderPartial" />
+	
+	<main>
+		<section class="py-2">
+			<div class="container">
+				<div class="row g-0">
+					<div class="col-12 bg-primary bg-opacity-10 p-2 rounded">
+						<div class="d-sm-flex align-items-center text-center text-sm-start">
+							<!-- Title -->
+							<div class="me-3">
+								<span class="badge bg-primary p-2 px-3">اخبار امروز:</span>
+							</div>
+							<!-- Slider -->
+							<div class="tiny-slider arrow-end arrow-xs arrow-white arrow-round arrow-md-none">
+								<div class="tiny-slider-inner"
+									 data-autoplay="true"
+									 data-hoverpause="true"
+									 data-gutter="0"
+									 data-arrow="true"
+									 data-dots="false"
+									 data-items="1">
+									<!-- Slider items -->
+									<div> <a href="#" class="text-reset btn-link">افزایش آلودگی هوا در شهرهای پُرجمعیت تا فردا</a></div>
+									<div> <a href="#" class="text-reset btn-link">حضورمسیحیان در حرم سامرابا آغاز سال جدید </a></div>
+									<div> <a href="#" class="text-reset btn-link">انتقاد ستاره رئال از شعارهای نژادپرستانه </a></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> <!-- Row END -->
+			</div>
+		</section>
+
+		@await RenderSectionAsync(name : "Landing",required:false)
+		<div class="container"><div class="border-bottom border-primary border-2 opacity-1"></div></div>
+
+		@RenderBody()
+
+	</main>
+	<partial name="_FooterPartial" />
+	<!-- Back to top -->
+	<div class="back-top"><i class="bi bi-arrow-up-short"></i></div>
+
+	<partial name="_FooterReferencesPartial" />
+	@await RenderSectionAsync(name: "Scripts" ,required:false)
+</body>
+
+</html>
