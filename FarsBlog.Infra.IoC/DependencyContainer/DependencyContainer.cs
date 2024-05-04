@@ -9,9 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FarsBlog.Infra.IoC.DependencyContainer;
 
-public class DependencyContainer
+public static class DependencyContainer
 {
-    public static void RegisterDependencies(IServiceCollection services, string connectionString)
+    public static void RegisterDependencies(this IServiceCollection services, string connectionString)
     {
         #region Database
 
@@ -22,7 +22,7 @@ public class DependencyContainer
 
         #endregion
 
-        #region MyRegion
+        #region Auto Mapper
 
         services.AddAutoMapper(typeof(ArticleProfile));
 

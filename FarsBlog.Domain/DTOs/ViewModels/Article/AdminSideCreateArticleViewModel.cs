@@ -21,9 +21,8 @@ public class AdminSideCreateArticleViewModel
     public string Slug { get; set; }
    
     [Display(Name = "توضیحات کوتاه")]
-    [Required(ErrorMessage = ErrorMessages.RequiredError)]
     [MaxLength(800, ErrorMessage = ErrorMessages.MaxLengthError)]
-    public string ShortDescription { get; set; }
+    public string? ShortDescription { get; set; }
 
     [Display(Name = "تصویر مقالات")]
     public IFormFile? ImageFile { get; set; }
@@ -31,11 +30,10 @@ public class AdminSideCreateArticleViewModel
     [Display(Name ="عنوان تصویر مقاله")]
     public  string? ImageAlt  { get; set; }
 
-    public string ImageFileName { get; set; }
+    public string? ImageName { get; set; }
 
     [Display(Name = "متن")]
-    [Required(ErrorMessage = ErrorMessages.RequiredError)]
-    public string Text { get; set; }
+    public string? Text { get; set; }
 
     public bool IsPublished { get; set; }
 }

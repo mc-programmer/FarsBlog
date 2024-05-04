@@ -15,13 +15,9 @@ public class Article : BaseEntity
 
     [MaxLength(800)]
     public string? ShortDescription { get; set; }
-
     public string? ImageName { get; set; }
-
     public string? ImageAlt{ get; set; }
-
     public string? Text { get; set; }
-
     public bool IsPublished { get; set; }
 
     #endregion

@@ -163,31 +163,112 @@ async function ModalRecoverConfirm(url) {
     });
 }
 
-//#region Change Image 
+$(document).ready(function () {
+    //#region Change Image 
 
-$("[ImageInput]").change(function () {
-    var x = $(this).attr("ImageInput");
-    var submitFormAfterUpload = $(this).attr("SubmitFormAfterUpload");
+    $("[ImageInput]").change(function () {
+        var x = $(this).attr("ImageInput");
+        var submitFormAfterUpload = $(this).attr("SubmitFormAfterUpload");
 
-    if (submitFormAfterUpload !== null && submitFormAfterUpload !== undefined && submitFormAfterUpload !== "") {
-        $(`#${submitFormAfterUpload}`).submit();
-    } else {
-        if (this.files && this.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $("[ImageFile=" + x + "]").attr('src', e.target.result);
-            };
-            reader.readAsDataURL(this.files[0]);
+        if (submitFormAfterUpload !== null && submitFormAfterUpload !== undefined && submitFormAfterUpload !== "") {
+            $(`#${submitFormAfterUpload}`).submit();
+        } else {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("[ImageFile=" + x + "]").attr('src', e.target.result);
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
         }
-    }
-});
-
-const button = document.getElementById('uploadBtn');
-if (button != null) {
-    button.addEventListener("click", function () {
-        const file = document.getElementById("uploadImage");
-        file.click();
     });
-}
 
-// #endregion
+    const button = document.getElementById('uploadBtn');
+    if (button != null) {
+        button.addEventListener("click", function () {
+            const file = document.getElementById("uploadImage");
+            file.click();
+        });
+    }
+
+    // #endregion
+
+    var editors = $("[ckeditor]");
+
+    if (editors.length > 0) {
+        var editorSrc = "/common/ckeditor/build/ckeditor.js";
+
+        $.getScript(editorSrc,
+            function (script, textStatus, jqXHR) {
+                $(editors).each(function (index, value) {
+                    ClassicEditor.create(value,
+                        {
+                            image: {
+                                types: ['png', 'jpeg'],
+                                upload: {
+                                    types: ['png', 'jpeg'],
+                                    minimumSize: 10
+                                }
+                            },
+                            toolbar: {
+                                items: [
+                                    'heading',
+                                    '|',
+                                    'bold',
+                                    'italic',
+                                    'underline',
+                                    'blockQuote',
+                                    'link',
+                                    '|',
+                                    'fontColor',
+                                    'fontSize',
+                                    '|',
+                                    'alignment',
+                                    'numberedList',
+                                    'bulletedList',
+                                    'indent',
+                                    'outdent',
+                                    '|',
+                                    'imageUpload',
+                                    'insertTable',
+                                    '|',
+                                    'codeBlock',
+                                    'removeFormat',
+                                ]
+                            },
+                            language: 'fa',
+                            image: {
+                                toolbar: [
+                                    'imageTextAlternative',
+                                    'imageStyle:full',
+                                    'imageStyle:side'
+                                ]
+                            },
+                            table: {
+                                contentToolbar: [
+                                    'tableColumn',
+                                    'tableRow',
+                                    'mergeTableCells',
+                                    'tableCellProperties',
+                                    'tableProperties'
+                                ]
+                            },
+                            simpleUpload: {
+                                uploadUrl: '/UploadCkeditorImage'
+                            },
+                            licenseKey: '',
+                            autoGrow: true,
+                            autoGrow_minHeight: '800px'
+                        })
+                        .then(editor => {
+                            window.editor = editor;
+                            editorsList.push(editor);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                });
+            });
+    }
+
+});

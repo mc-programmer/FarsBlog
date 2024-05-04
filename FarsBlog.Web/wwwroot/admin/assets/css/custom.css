@@ -264,3 +264,8 @@
     top: 20px;
     position: relative;
 }
+
+
+.ck-editor__editable {
+    min-height: 300px !important;
+}

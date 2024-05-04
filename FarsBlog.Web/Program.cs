@@ -1,17 +1,15 @@
 using FarsBlog.Application.Statics;
 using FarsBlog.Infra.IoC.DependencyContainer;
-using FarsBlog.Web.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 #region Services
 
-LogsConfiger.ConfigSerilog(builder);
+//LogsConfiger.ConfigSerilog(builder);
 
 builder.Services.AddControllersWithViews();
 
-DependencyContainer.RegisterDependencies(
-   services: builder.Services,
+builder.Services.RegisterDependencies(
    connectionString: builder.Configuration.GetConnectionString("CodeJooyanTVConnectionString")!);
 
 builder.Configuration.GetSection("SiteTools").Get<SiteTools>();
