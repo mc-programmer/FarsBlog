@@ -93,7 +93,7 @@ public class ArticleCategoryController : AdminBaseController
         if (result.IsFailure)
             return JsonResponse.Failure(result.Message);
 
-        return JsonResponse.Failure(result.Message);
+        return JsonResponse.Success(result.Message);
     }
 
     #endregion

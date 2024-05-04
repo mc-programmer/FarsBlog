@@ -153,11 +153,11 @@ public class ArticleCategoryService : IArticleCategoryService
 
         #region Validate Title And Slug
 
-        var isModelValid = await _articleCategoryRepository.IsValidAsync(nameof(model.Title), model.Title!, objectFromDatabase.Id);
-        if (!isModelValid) return Result.Failure(ErrorMessages.TitleExistError);
+        var isModelValid = await _articleCategoryRepository.IsValidAsync(nameof(ArticleCategory.Title), model.Title!, objectFromDatabase.Id);
+        if (isModelValid is false) return Result.Failure(ErrorMessages.TitleExistError);
 
-        isModelValid = await _articleCategoryRepository.IsValidAsync(nameof(model.Slug), model.Slug!, objectFromDatabase.Id);
-        if (!isModelValid) return Result.Failure(ErrorMessages.SlugExistError);
+        isModelValid = await _articleCategoryRepository.IsValidAsync(nameof(ArticleCategory.Slug), model.Slug!, objectFromDatabase.Id);
+        if (isModelValid is false) return Result.Failure(ErrorMessages.SlugExistError);
 
         #endregion
 

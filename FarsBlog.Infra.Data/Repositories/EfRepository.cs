@@ -151,7 +151,7 @@ public class EfRepository<TEntity, TKey> : IRepository<TEntity, TKey> where TEnt
     {
         if (id is null || id is bool) throw new ArgumentException(nameof(id));
 
-        return await _dbSet.AnyAsync(x => EF.Property<string>(x, propertyName) == propertyValue && EF.Property<TKey>(x, nameof(x.Id)).Equals(id));
+        return await _dbSet.AnyAsync(x => EF.Property<string>(x, propertyName) == propertyValue && !EF.Property<TKey>(x, nameof(x.Id)).Equals(id)) ? false :true ;
     }
 
     #endregion
